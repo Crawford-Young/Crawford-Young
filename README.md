@@ -1,5 +1,7 @@
 ## Hi, I'm Crawford Young 👋
 
+[Resume](https://github.com/Crawford-Young/Crawford-Young/blob/main/JamesCrawfordYoungFinalResume.pdf)[LinkedIn](https://www.linkedin.com/in/crawford-young/)
+
 ### Senior computer science student at Auburn University
 ### Searching for a software development or artifical intelligence summer internship
 
