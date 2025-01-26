@@ -20,7 +20,7 @@ Portfolio Website
 Finished:  
 [ENGR1110](https://github.com/Crawford-Young/Engr1110) (Intro to Comp Sci & Software Engineering)  
 COMP2210 (Fundamentals of Computing II)  
-COMP2710 (Software Construction)  
+[COMP2710](https://github.com/Crawford-Young/Comp2710) (Software Construction)  
 COMP3220 (Prin Of Programming Languages)  
 COMP3240 (Discrete Structures)  
 COMP3270 (Introduction to Algorithms)  
