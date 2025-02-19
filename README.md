@@ -3,7 +3,7 @@
 [Resume](https://github.com/Crawford-Young/Crawford-Young/blob/main/JamesCrawfordYoungFinalResume.pdf) [LinkedIn](https://www.linkedin.com/in/crawford-young/)
 
 ### Senior computer science student at Auburn University
-### FloQast software engineering intern summer 2025
+### FloQast software engineer intern summer 2025
 
 ### About me:
 Web Development Club President  
