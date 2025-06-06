@@ -6,11 +6,11 @@
 ### FloQast software engineer intern summer 2025
 
 ### About me:
-Web Development Club President  
-Competitive Programming Team Member  
-Ethical Hacking Club Member  
-Undergraduate Certificate in Artifical Intelligence Engineering  
-Honors College  
+. Web Development Club President  
+. Competitive Programming Team Member  
+. Ethical Hacking Club Member  
+. Undergraduate Certificate in Artifical Intelligence Engineering  
+. Honors College  
   
 ### Currently Working on:
 [Instrument Tuner](https://github.com/Crawford-Young/InstrumentTuner)  
