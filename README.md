@@ -7,7 +7,7 @@
 
 ### About me:
 * Web Development Club President
-*  Subdot
+  * Subdot
 * Competitive Programming Team Member  
 * Ethical Hacking Club Member  
 * Undergraduate Certificate in Artifical Intelligence Engineering  
