@@ -16,7 +16,7 @@
 [Portfolio Website](https://github.com/Crawford-Young/NextJSPlayground)
 
 ### Web Dev:
-[Schedule](https://github.com/Crawford-Young/WebDev)
+[Schedule](https://github.com/Crawford-Young/WebDev)  
 Website  
 
 ### Other Projects:
