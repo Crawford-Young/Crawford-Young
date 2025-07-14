@@ -6,14 +6,14 @@
 ### FloQast software engineer intern summer 2025
 
 ### About me:
-* Web Development Club President
+* Web Development Club President  
 * Competitive Programming Team Member  
 * Ethical Hacking Club Member  
 * Undergraduate Certificate in Artifical Intelligence Engineering  
 * Honors College  
   
 ### Currently Working on:
-[Portfolio Website](https://github.com/Crawford-Young/NextJSPlayground)
+[Portfolio Website](https://github.com/Crawford-Young/NextJSPlayground)  
 
 ### Web Dev:
 [Schedule](https://github.com/Crawford-Young/WebDev)  
@@ -35,7 +35,7 @@ COMP3500 (Intro To Operating Systems)
 COMP3700 (Software Modeling And Design)  
 COMP4200 (Formal Languages)  
 COMP4320 (Intro To Computer Networks)  
-[COMP5120](https://github.com/Crawford-Young/Comp5120) (Database Systems I)
+[COMP5120](https://github.com/Crawford-Young/Comp5120) (Database Systems I)  
 COMP5700 (Secure Software Process)  
 [COMP5710](https://github.com/Crawford-Young/RenegadeRaiders-SQA2025-AUBURN) (Software Quality Assurance)  
 COMP6130 (Data Mining)  
