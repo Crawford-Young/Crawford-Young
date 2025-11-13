@@ -3,7 +3,7 @@
 [LinkedIn](https://www.linkedin.com/in/crawford-young/)
 
 ### Senior computer science student at Auburn University
-### FloQast software engineer intern summer 2025
+### Incoming Aderant Software Engineer
 
 ### About me:
 * Web Development Club President  
