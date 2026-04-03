@@ -1,26 +1,31 @@
 ## Hi, I'm Crawford Young 👋
 
 [LinkedIn](https://www.linkedin.com/in/crawford-young/)
+[Portfolio Website](https://crawford-young.github.io/)
 
-### Senior computer science student at Auburn University
-### Incoming Aderant Software Engineer
+### Aderant AI/Software Engineer
+### Auburn Grad
 
 ### About me:
-* Web Development Club President  
-* Competitive Programming Team Member  
-* Ethical Hacking Club Member  
+* BS of Computer Science  
 * Undergraduate Certificate in Artifical Intelligence Engineering  
-* Honors College  
+* Honors Scholar  
+* Ex-Web Development Club President  
+* Ex-Competitive Programming Team Member
+* Ex-FloQast Software Engineer Intern  
+
   
 ### Currently Working on:
-[Portfolio Website](https://github.com/Crawford-Young/NextJSPlayground)  
+[Personal Component Library](https://github.com/Crawford-Young/component-library)  
+[Portfolio Website](https://github.com/Crawford-Young/Crawford-Young.github.io)
 
-### Web Dev:
-[Schedule](https://github.com/Crawford-Young/WebDev)  
-Website  
 
 ### Other Projects:
 [Instrument Tuner](https://github.com/Crawford-Young/InstrumentTuner)  
+[AI Pacman Project](https://github.com/Crawford-Young/AI-Pacman)
+[AI Chess Puzzle Generator Project](https://github.com/Crawford-Young/ChessBot)
+[Basic HTML Idle Game](https://github.com/Crawford-Young/Idle_Game)  
+
   
 ### Coursework:
 Finished:  
