@@ -22,8 +22,8 @@
 
 ### Other Projects:
 [Instrument Tuner](https://github.com/Crawford-Young/InstrumentTuner)  
-[AI Pacman Project](https://github.com/Crawford-Young/AI-Pacman)
-[AI Chess Puzzle Generator Project](https://github.com/Crawford-Young/ChessBot)
+[AI Pacman Project](https://github.com/Crawford-Young/AI-Pacman)  
+[AI Chess Puzzle Generator Project](https://github.com/Crawford-Young/ChessBot)  
 [Basic HTML Idle Game](https://github.com/Crawford-Young/Idle_Game)  
 
   
