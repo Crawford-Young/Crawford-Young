@@ -13,8 +13,8 @@
     <img src="https://img.shields.io/badge/LinkedIn-Crawford%20Young-0a66c2?style=flat-square&logo=linkedin&logoColor=white" alt="LinkedIn" />
   </a>
   &nbsp;
-  <a href="https://crawford-young.github.io/">
-    <img src="https://img.shields.io/badge/Portfolio-crawford--young.github.io-6e40c9?style=flat-square&logo=github&logoColor=white" alt="Portfolio" />
+  <a href="https://crawfordyoung.vercel.app/">
+    <img src="https://img.shields.io/badge/Portfolio-crawfordyoung.vercel.app-6e40c9?style=flat-square&logo=vercel&logoColor=white" alt="Portfolio" />
   </a>
 </p>
 
@@ -31,12 +31,16 @@
 ### GitHub Stats
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=Crawford-Young&theme=tokyonight&show_icons=true&hide_border=true&count_private=true" alt="GitHub Stats" height="165" />
+  <img src="https://github-readme-stats.vercel.app/api?username=Crawford-Young&theme=tokyonight&show_icons=true&hide_border=true&count_private=true&include_all_commits=true" alt="GitHub Stats" height="165" />
   <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Crawford-Young&theme=tokyonight&layout=compact&hide_border=true" alt="Top Languages" height="165" />
 </p>
 
 <p align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=Crawford-Young&theme=tokyonight&hide_border=true" alt="GitHub Streak" />
+  <img src="https://streak-stats.demolab.com/?user=Crawford-Young&theme=tokyonight&hide_border=true" alt="GitHub Streak" />
+</p>
+
+<p align="center">
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=Crawford-Young&theme=tokyo-night&hide_border=true&area=true" alt="Contribution Graph" />
 </p>
 
 ---
@@ -59,8 +63,9 @@
 
 ### Currently Working On
 
+- [Scheduling Assistant](https://github.com/Crawford-Young/scheduling-advisor) — AI-powered scheduling tool
 - [Personal Component Library](https://github.com/Crawford-Young/component-library)
-- [Portfolio Website](https://github.com/Crawford-Young/Crawford-Young.github.io)
+- [Portfolio Website](https://crawfordyoung.vercel.app)
 
 ---
 
