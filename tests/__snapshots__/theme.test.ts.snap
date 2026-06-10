@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`cardFrame > wraps body in a themed SVG shell 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" width="450" height="195" viewBox="0 0 450 195" fill="none" role="img" aria-label="Title &lt;X&gt;">
+  <rect width="449" height="194" x="0.5" y="0.5" rx="6" fill="#1a1b27" stroke="#2a2c3f"/>
+  <text x="24" y="33" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="16" font-weight="600">Title &lt;X&gt;</text>
+<g id="body"/>
+</svg>"
+`;
