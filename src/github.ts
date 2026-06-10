@@ -187,12 +187,17 @@ export async function fetchGithubData(token: string): Promise<GithubData> {
     commits += col.totalCommitContributions + col.restrictedContributionsCount;
     for (const week of col.contributionCalendar.weeks) {
       for (const d of week.contributionDays) {
-        if (allDays.at(-1)?.date !== d.date) {
+        const last = allDays.at(-1);
+        if (last?.date === d.date) {
+          // Day split across two windows — sum the partial counts.
+          allDays[allDays.length - 1] = { date: d.date, count: last.count + d.contributionCount };
+        } else {
           allDays.push({ date: d.date, count: d.contributionCount });
         }
       }
     }
-    from = to;
+    // `to` is inclusive — start next window 1ms later to avoid double-counting.
+    from = new Date(to.getTime() + 1);
   }
 
   return {
