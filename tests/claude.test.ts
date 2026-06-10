@@ -43,6 +43,13 @@ describe("aggregateLines", () => {
     const out = aggregateLines(["not json", "", cacheLine], new Set());
     expect(Object.values(out)[0]).toEqual({ input: 3210, output: 1 });
   });
+  it("skips lines with unparseable timestamps", () => {
+    const out = aggregateLines(
+      [line("m4", "not-a-timestamp", 100, 50), line("m5", "2026-06-09T15:00:00Z", 10, 5)],
+      new Set(),
+    );
+    expect(out).toEqual({ "2026-06-09": { input: 10, output: 5 } });
+  });
 });
 
 describe("mergeUsage", () => {
@@ -67,6 +74,20 @@ describe("toClaudeDays", () => {
     expect(days).toEqual([
       { date: "2026-06-01", tokens: 2 },
       { date: "2026-06-02", tokens: 4 },
+    ]);
+  });
+  it("drops oldest dates beyond n", () => {
+    const days = toClaudeDays(
+      {
+        "2026-06-01": { input: 1, output: 0 },
+        "2026-06-02": { input: 2, output: 0 },
+        "2026-06-03": { input: 3, output: 0 },
+      },
+      2,
+    );
+    expect(days).toEqual([
+      { date: "2026-06-02", tokens: 2 },
+      { date: "2026-06-03", tokens: 3 },
     ]);
   });
 });

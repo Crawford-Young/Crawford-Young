@@ -21,9 +21,10 @@ interface TranscriptLine {
   };
 }
 
-function localDate(iso: string): string {
+function localDate(iso: string): string | null {
   // en-CA locale formats as YYYY-MM-DD in the machine's timezone.
-  return new Date(iso).toLocaleDateString("en-CA");
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime()) ? null : d.toLocaleDateString("en-CA");
 }
 
 /** Aggregate token usage per local date. `seen` dedupes message ids across files. */
@@ -45,8 +46,9 @@ export function aggregateLines(
     const ts = parsed.timestamp;
     if (parsed.type !== "assistant" || !usage || !id || !ts) continue;
     if (seen.has(id)) continue;
-    seen.add(id);
     const date = localDate(ts);
+    if (!date) continue;
+    seen.add(id);
     const bucket = (out[date] ??= { input: 0, output: 0 });
     bucket.input +=
       (usage.input_tokens ?? 0) +
