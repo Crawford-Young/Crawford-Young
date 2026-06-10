@@ -115,9 +115,13 @@ export function renderActivityCard(days: readonly DayPoint[]): string {
     const py = PLOT_BOTTOM - (d.count / max) * (PLOT_BOTTOM - PLOT_TOP);
     return `${px.toFixed(1)},${py.toFixed(1)}`;
   });
-  const area = `M${PLOT_LEFT},${PLOT_BOTTOM} L${pts.join(" L")} L${PLOT_RIGHT},${PLOT_BOTTOM} Z`;
+  const area =
+    pts.length > 0
+      ? `M${PLOT_LEFT},${PLOT_BOTTOM} L${pts.join(" L")} L${PLOT_RIGHT},${PLOT_BOTTOM} Z`
+      : `M${PLOT_LEFT},${PLOT_BOTTOM} L${PLOT_RIGHT},${PLOT_BOTTOM} Z`;
+  const linePts = pts.length > 0 ? pts : [`${PLOT_LEFT},${PLOT_BOTTOM}`, `${PLOT_RIGHT},${PLOT_BOTTOM}`];
   const body = `  <path d="${area}" fill="${theme.title}" fill-opacity="0.25"/>
-  <polyline points="${pts.join(" ")}" stroke="${theme.title}" stroke-width="2" fill="none"/>
+  <polyline points="${linePts.join(" ")}" stroke="${theme.title}" stroke-width="2" fill="none"/>
   <text x="${PLOT_LEFT}" y="${PLOT_BOTTOM + 18}" fill="${theme.subtext}" font-family="${FONT}" font-size="11">${days[0]?.date ?? ""}</text>
   <text x="${PLOT_RIGHT}" y="${PLOT_BOTTOM + 18}" text-anchor="end" fill="${theme.subtext}" font-family="${FONT}" font-size="11">${days.at(-1)?.date ?? ""}</text>`;
   return cardFrame(GRAPH_WIDTH, GRAPH_HEIGHT, "Contribution Activity — Last 31 Days", body);
