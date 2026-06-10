@@ -1,0 +1,34 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renderLanguagesCard > shows language names and percentages 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" width="300" height="134" viewBox="0 0 300 134" fill="none" role="img" aria-label="Most Used Languages">
+  <rect width="299" height="133" x="0.5" y="0.5" rx="6" fill="#1a1b27" stroke="#2a2c3f"/>
+  <text x="24" y="33" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="16" font-weight="600">Most Used Languages</text>
+  <rect x="24.0" y="52" width="176.4" height="8" fill="#3178c6"/>
+  <rect x="200.4" y="52" width="75.6" height="8" fill="#3572A5"/>
+  <circle cx="29" cy="76" r="5" fill="#3178c6"/>
+  <text x="42" y="80" fill="#38bdae" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="13">TypeScript 70.0%</text>
+  <circle cx="29" cy="98" r="5" fill="#3572A5"/>
+  <text x="42" y="102" fill="#38bdae" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="13">Python 30.0%</text>
+</svg>"
+`;
+
+exports[`renderStatsCard > shows every stat row and the rank letter 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" width="450" height="195" viewBox="0 0 450 195" fill="none" role="img" aria-label="Crawford Young&apos;s GitHub Stats">
+  <rect width="449" height="194" x="0.5" y="0.5" rx="6" fill="#1a1b27" stroke="#2a2c3f"/>
+  <text x="24" y="33" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="16" font-weight="600">Crawford Young&apos;s GitHub Stats</text>
+  <text x="24" y="66" fill="#38bdae" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="14">Total Stars Earned:</text>
+  <text x="230" y="66" fill="#38bdae" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="14" font-weight="600">120</text>
+  <text x="24" y="91" fill="#38bdae" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="14">Total Commits:</text>
+  <text x="230" y="91" fill="#38bdae" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="14" font-weight="600">2.3k</text>
+  <text x="24" y="116" fill="#38bdae" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="14">Total PRs:</text>
+  <text x="230" y="116" fill="#38bdae" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="14" font-weight="600">87</text>
+  <text x="24" y="141" fill="#38bdae" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="14">Total Issues:</text>
+  <text x="230" y="141" fill="#38bdae" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="14" font-weight="600">14</text>
+  <text x="24" y="166" fill="#38bdae" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="14">Contributed to:</text>
+  <text x="230" y="166" fill="#38bdae" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="14" font-weight="600">9</text>
+  <circle cx="385" cy="120" r="40" stroke="#2a2c3f" stroke-width="6"/>
+  <circle cx="385" cy="120" r="40" stroke="#70a5fd" stroke-width="6" stroke-linecap="round" stroke-dasharray="156 251" transform="rotate(-90 385 120)"/>
+  <text x="385" y="128" text-anchor="middle" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="22" font-weight="700">A</text>
+</svg>"
+`;
