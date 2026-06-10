@@ -62,6 +62,11 @@ describe("renderActivityCard", () => {
     const svg = renderActivityCard(days31.map((d) => ({ ...d, count: 0 })));
     expect(svg).not.toContain("NaN");
   });
+  it("renders valid markup for an empty days array", () => {
+    const svg = renderActivityCard([]);
+    expect(svg).not.toContain("L L");
+    expect(svg).not.toContain('points=""');
+  });
 });
 
 describe("renderClaudeCard", () => {
