@@ -1,5 +1,56 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`renderActivityCard > renders an area path spanning the days 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" width="760" height="220" viewBox="0 0 760 220" fill="none" role="img" aria-label="Contribution Activity — Last 31 Days">
+  <rect width="759" height="219" x="0.5" y="0.5" rx="6" fill="#1a1b27" stroke="#2a2c3f"/>
+  <text x="24" y="33" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="16" font-weight="600">Contribution Activity — Last 31 Days</text>
+  <path d="M24,190 L24.0,190.0 L47.7,168.3 L71.5,146.7 L95.2,125.0 L118.9,103.3 L142.7,81.7 L166.4,60.0 L190.1,190.0 L213.9,168.3 L237.6,146.7 L261.3,125.0 L285.1,103.3 L308.8,81.7 L332.5,60.0 L356.3,190.0 L380.0,168.3 L403.7,146.7 L427.5,125.0 L451.2,103.3 L474.9,81.7 L498.7,60.0 L522.4,190.0 L546.1,168.3 L569.9,146.7 L593.6,125.0 L617.3,103.3 L641.1,81.7 L664.8,60.0 L688.5,190.0 L712.3,168.3 L736.0,146.7 L736,190 Z" fill="#70a5fd" fill-opacity="0.25"/>
+  <polyline points="24.0,190.0 47.7,168.3 71.5,146.7 95.2,125.0 118.9,103.3 142.7,81.7 166.4,60.0 190.1,190.0 213.9,168.3 237.6,146.7 261.3,125.0 285.1,103.3 308.8,81.7 332.5,60.0 356.3,190.0 380.0,168.3 403.7,146.7 427.5,125.0 451.2,103.3 474.9,81.7 498.7,60.0 522.4,190.0 546.1,168.3 569.9,146.7 593.6,125.0 617.3,103.3 641.1,81.7 664.8,60.0 688.5,190.0 712.3,168.3 736.0,146.7" stroke="#70a5fd" stroke-width="2" fill="none"/>
+  <text x="24" y="208" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="11">2026-05-01</text>
+  <text x="736" y="208" text-anchor="end" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="11">2026-05-31</text>
+</svg>"
+`;
+
+exports[`renderClaudeCard > renders one bar per day and the 30-day total 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" width="760" height="220" viewBox="0 0 760 220" fill="none" role="img" aria-label="Claude Code Usage — Last 30 Days">
+  <rect width="759" height="219" x="0.5" y="0.5" rx="6" fill="#1a1b27" stroke="#2a2c3f"/>
+  <text x="24" y="33" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="16" font-weight="600">Claude Code Usage — Last 30 Days</text>
+  <rect class="bar" x="24.0" y="185.7" width="19.7" height="4.3" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="47.7" y="181.3" width="19.7" height="8.7" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="71.5" y="177.0" width="19.7" height="13.0" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="95.2" y="172.7" width="19.7" height="17.3" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="118.9" y="168.3" width="19.7" height="21.7" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="142.7" y="164.0" width="19.7" height="26.0" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="166.4" y="159.7" width="19.7" height="30.3" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="190.1" y="155.3" width="19.7" height="34.7" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="213.9" y="151.0" width="19.7" height="39.0" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="237.6" y="146.7" width="19.7" height="43.3" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="261.3" y="142.3" width="19.7" height="47.7" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="285.1" y="138.0" width="19.7" height="52.0" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="308.8" y="133.7" width="19.7" height="56.3" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="332.5" y="129.3" width="19.7" height="60.7" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="356.3" y="125.0" width="19.7" height="65.0" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="380.0" y="120.7" width="19.7" height="69.3" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="403.7" y="116.3" width="19.7" height="73.7" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="427.5" y="112.0" width="19.7" height="78.0" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="451.2" y="107.7" width="19.7" height="82.3" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="474.9" y="103.3" width="19.7" height="86.7" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="498.7" y="99.0" width="19.7" height="91.0" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="522.4" y="94.7" width="19.7" height="95.3" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="546.1" y="90.3" width="19.7" height="99.7" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="569.9" y="86.0" width="19.7" height="104.0" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="593.6" y="81.7" width="19.7" height="108.3" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="617.3" y="77.3" width="19.7" height="112.7" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="641.1" y="73.0" width="19.7" height="117.0" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="664.8" y="68.7" width="19.7" height="121.3" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="688.5" y="64.3" width="19.7" height="125.7" rx="2" fill="#bf91f3"/>
+  <rect class="bar" x="712.3" y="60.0" width="19.7" height="130.0" rx="2" fill="#bf91f3"/>
+  <text x="736" y="33" text-anchor="end" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="13">465.0k tokens / 30 days</text>
+  <text x="24" y="208" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="11">2026-05-01</text>
+  <text x="736" y="208" text-anchor="end" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="11">2026-05-30</text>
+</svg>"
+`;
+
 exports[`renderLanguagesCard > shows language names and percentages 1`] = `
 "<svg xmlns="http://www.w3.org/2000/svg" width="300" height="134" viewBox="0 0 300 134" fill="none" role="img" aria-label="Most Used Languages">
   <rect width="299" height="133" x="0.5" y="0.5" rx="6" fill="#1a1b27" stroke="#2a2c3f"/>
@@ -30,5 +81,20 @@ exports[`renderStatsCard > shows every stat row and the rank letter 1`] = `
   <circle cx="385" cy="120" r="40" stroke="#2a2c3f" stroke-width="6"/>
   <circle cx="385" cy="120" r="40" stroke="#70a5fd" stroke-width="6" stroke-linecap="round" stroke-dasharray="156 251" transform="rotate(-90 385 120)"/>
   <text x="385" y="128" text-anchor="middle" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="22" font-weight="700">A</text>
+</svg>"
+`;
+
+exports[`renderStreakCard > shows totals and streak numbers 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" width="450" height="170" viewBox="0 0 450 170" fill="none" role="img" aria-label="Contribution Streak">
+  <rect width="449" height="169" x="0.5" y="0.5" rx="6" fill="#1a1b27" stroke="#2a2c3f"/>
+  <text x="24" y="33" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="16" font-weight="600">Contribution Streak</text>
+  <text x="85" y="95" text-anchor="middle" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="28" font-weight="700">1.8k</text>
+  <text x="85" y="125" text-anchor="middle" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="13">Total Contributions</text>
+  <text x="225" y="95" text-anchor="middle" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="28" font-weight="700">12</text>
+  <text x="225" y="125" text-anchor="middle" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="13">Current Streak</text>
+  <text x="365" y="95" text-anchor="middle" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="28" font-weight="700">41</text>
+  <text x="365" y="125" text-anchor="middle" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="13">Longest Streak</text>
+  <line x1="155" y1="60" x2="155" y2="140" stroke="#2a2c3f"/>
+  <line x1="295" y1="60" x2="295" y2="140" stroke="#2a2c3f"/>
 </svg>"
 `;
