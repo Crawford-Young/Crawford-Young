@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renderBadge > renders label text and background color 1`] = `
+"<svg xmlns="http://www.w3.org/2000/svg" width="96" height="20" role="img" aria-label="TypeScript">
+  <rect width="96" height="20" fill="#3178c6"/>
+  <g transform="translate(5, 3) scale(0.5833333333333334)"><path d="M0 0h24v24H0z" fill="#ffffff"/></g>
+  <text x="24" y="14" fill="#ffffff" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="11">TypeScript</text>
+</svg>"
+`;
