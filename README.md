@@ -5,17 +5,9 @@
 </p>
 
 <p align="center">
-  <img src="https://komarev.com/ghpvc/?username=Crawford-Young&style=flat-square&color=6e40c9&label=Profile+Views" alt="profile views" />
-</p>
-
-<p align="center">
-  <a href="https://www.linkedin.com/in/crawford-young/">
-    <img src="https://img.shields.io/badge/LinkedIn-Crawford%20Young-0a66c2?style=flat-square&logo=linkedin&logoColor=white" alt="LinkedIn" />
-  </a>
+  <a href="https://www.linkedin.com/in/crawford-young/"><img src="./assets/badges/linkedin.svg" alt="LinkedIn" /></a>
   &nbsp;
-  <a href="https://crawfordyoung.vercel.app/">
-    <img src="https://img.shields.io/badge/Portfolio-crawfordyoung.vercel.app-6e40c9?style=flat-square&logo=vercel&logoColor=white" alt="Portfolio" />
-  </a>
+  <a href="https://crawfordyoung.dev/"><img src="./assets/badges/portfolio.svg" alt="Portfolio" /></a>
 </p>
 
 ---
@@ -31,31 +23,37 @@
 ### GitHub Stats
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=Crawford-Young&theme=tokyonight&show_icons=true&hide_border=true&count_private=true&include_all_commits=true" alt="GitHub Stats" height="165" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Crawford-Young&theme=tokyonight&layout=compact&hide_border=true" alt="Top Languages" height="165" />
+  <img src="./assets/stats.svg" alt="GitHub Stats" />
+  <img src="./assets/languages.svg" alt="Top Languages" />
 </p>
 
 <p align="center">
-  <img src="https://streak-stats.demolab.com/?user=Crawford-Young&theme=tokyonight&hide_border=true" alt="GitHub Streak" />
+  <img src="./assets/streak.svg" alt="Contribution Streak" />
 </p>
 
 <p align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=Crawford-Young&theme=tokyo-night&hide_border=true&area=true" alt="Contribution Graph" />
+  <img src="./assets/activity.svg" alt="Contribution Activity" />
 </p>
+
+<p align="center">
+  <img src="./assets/claude.svg" alt="Claude Code Usage" />
+</p>
+
+<sub align="center">All cards generated daily by <a href="./src">our own code</a> — no third-party image services.</sub>
 
 ---
 
 ### Tech Stack
 
 <p align="center">
-  <img src="https://img.shields.io/badge/TypeScript-3178c6?style=flat-square&logo=typescript&logoColor=white" />
-  <img src="https://img.shields.io/badge/JavaScript-f7df1e?style=flat-square&logo=javascript&logoColor=black" />
-  <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white" />
-  <img src="https://img.shields.io/badge/React-61dafb?style=flat-square&logo=react&logoColor=black" />
-  <img src="https://img.shields.io/badge/Python-3776ab?style=flat-square&logo=python&logoColor=white" />
-  <img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white" />
-  <img src="https://img.shields.io/badge/Tailwind_CSS-06b6d4?style=flat-square&logo=tailwindcss&logoColor=white" />
-  <img src="https://img.shields.io/badge/Git-f05032?style=flat-square&logo=git&logoColor=white" />
+  <img src="./assets/badges/typescript.svg" alt="TypeScript" />
+  <img src="./assets/badges/javascript.svg" alt="JavaScript" />
+  <img src="./assets/badges/nextjs.svg" alt="Next.js" />
+  <img src="./assets/badges/react.svg" alt="React" />
+  <img src="./assets/badges/python.svg" alt="Python" />
+  <img src="./assets/badges/nodejs.svg" alt="Node.js" />
+  <img src="./assets/badges/tailwind.svg" alt="Tailwind CSS" />
+  <img src="./assets/badges/git.svg" alt="Git" />
 </p>
 
 ---
@@ -64,7 +62,7 @@
 
 - [Scheduling Assistant](https://github.com/Crawford-Young/scheduling-advisor) — AI-powered scheduling tool
 - [Personal Component Library](https://github.com/Crawford-Young/component-library)
-- [Portfolio Website](https://crawfordyoung.vercel.app)
+- [Portfolio Website](https://crawfordyoung.dev)
 
 ---
 
