@@ -48,7 +48,7 @@ const WHITE = "#ffffff";
 
 export const BADGES: readonly Badge[] = [
   { file: "linkedin.svg", label: "LinkedIn — Crawford Young", color: "#0a66c2", textColor: WHITE, iconPath: LINKEDIN_PATH },
-  { file: "portfolio.svg", label: "Portfolio — crawfordyoung.vercel.app", color: "#6e40c9", textColor: WHITE, iconPath: VERCEL_PATH },
+  { file: "portfolio.svg", label: "Portfolio — crawfordyoung.dev", color: "#6e40c9", textColor: WHITE, iconPath: VERCEL_PATH },
   { file: "typescript.svg", label: "TypeScript", color: "#3178c6", textColor: WHITE, iconPath: siTypescript.path },
   { file: "javascript.svg", label: "JavaScript", color: "#f7df1e", textColor: "#000000", iconPath: siJavascript.path },
   { file: "nextjs.svg", label: "Next.js", color: "#000000", textColor: WHITE, iconPath: siNextdotjs.path },
