@@ -3,7 +3,7 @@
   <text x="24" y="33" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="16" font-weight="600">Contribution Streak</text>
   <text x="85" y="95" text-anchor="middle" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="28" font-weight="700">350</text>
   <text x="85" y="125" text-anchor="middle" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="13">Total Contributions</text>
-  <text x="225" y="95" text-anchor="middle" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="28" font-weight="700">1</text>
+  <text x="225" y="95" text-anchor="middle" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="28" font-weight="700">0</text>
   <text x="225" y="125" text-anchor="middle" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="13">Current Streak</text>
   <text x="365" y="95" text-anchor="middle" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="28" font-weight="700">18</text>
   <text x="365" y="125" text-anchor="middle" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="13">Longest Streak</text>
