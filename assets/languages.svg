@@ -3,7 +3,7 @@
   <text x="24" y="33" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="16" font-weight="600">Most Used Languages</text>
   <rect x="24.0" y="52" width="110.8" height="8" fill="#DA5B0B"/>
   <rect x="134.8" y="52" width="71.2" height="8" fill="#3572A5"/>
-  <rect x="206.0" y="52" width="56.3" height="8" fill="#3178c6"/>
+  <rect x="206.0" y="52" width="56.4" height="8" fill="#3178c6"/>
   <rect x="262.4" y="52" width="9.4" height="8" fill="#f1e05a"/>
   <rect x="271.8" y="52" width="2.6" height="8" fill="#178600"/>
   <rect x="274.4" y="52" width="1.6" height="8" fill="#663399"/>
@@ -12,7 +12,7 @@
   <circle cx="29" cy="98" r="5" fill="#3572A5"/>
   <text x="42" y="102" fill="#38bdae" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="13">Python 28.3%</text>
   <circle cx="29" cy="120" r="5" fill="#3178c6"/>
-  <text x="42" y="124" fill="#38bdae" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="13">TypeScript 22.3%</text>
+  <text x="42" y="124" fill="#38bdae" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="13">TypeScript 22.4%</text>
   <circle cx="29" cy="142" r="5" fill="#f1e05a"/>
   <text x="42" y="146" fill="#38bdae" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="13">JavaScript 3.7%</text>
   <circle cx="29" cy="164" r="5" fill="#178600"/>
