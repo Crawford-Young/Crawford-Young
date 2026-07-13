@@ -3,6 +3,7 @@ import {
   renderActivityCard,
   renderClaudeCard,
   renderLanguagesCard,
+  renderLocCard,
   renderStatsCard,
   renderStreakCard,
 } from "../src/cards.js";
@@ -82,6 +83,24 @@ describe("renderClaudeCard", () => {
   });
   it("handles zero usage without NaN", () => {
     const svg = renderClaudeCard([{ date: "2026-06-01", tokens: 0 }]);
+    expect(svg).not.toContain("NaN");
+  });
+});
+
+describe("renderLocCard", () => {
+  it("renders one bar per day and the 31-day total", () => {
+    const days = Array.from({ length: 31 }, (_, i) => ({
+      date: `2026-05-${String(i + 1).padStart(2, "0")}`,
+      changed: (i + 1) * 100,
+    }));
+    const svg = renderLocCard(days);
+    expect(svg.match(/<rect class="bar"/g)).toHaveLength(31);
+    expect(svg).toContain("49.6k lines / 31 days");
+    expect(svg).toContain("Lines of Code Changed");
+    expect(svg).toMatchSnapshot();
+  });
+  it("handles an all-zero window without NaN", () => {
+    const svg = renderLocCard([{ date: "2026-07-01", changed: 0 }]);
     expect(svg).not.toContain("NaN");
   });
 });

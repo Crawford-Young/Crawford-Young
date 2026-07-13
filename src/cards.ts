@@ -151,3 +151,26 @@ export function renderClaudeCard(days: readonly ClaudeDay[]): string {
   <text x="${PLOT_RIGHT}" y="${PLOT_BOTTOM + 18}" text-anchor="end" fill="${theme.subtext}" font-family="${FONT}" font-size="11">${days.at(-1)?.date ?? ""}</text>`;
   return cardFrame(GRAPH_WIDTH, GRAPH_HEIGHT, "Claude Code Usage — Last 30 Days", `${bars}\n${subtitle}`);
 }
+
+export interface LocDay {
+  readonly date: string;
+  readonly changed: number;
+}
+
+export function renderLocCard(days: readonly LocDay[]): string {
+  const max = Math.max(1, ...days.map((d) => d.changed));
+  const total = days.reduce((sum, d) => sum + d.changed, 0);
+  const slot = (PLOT_RIGHT - PLOT_LEFT) / Math.max(1, days.length);
+  const bars = days
+    .map((d, i) => {
+      const h = (d.changed / max) * (PLOT_BOTTOM - PLOT_TOP);
+      const px = PLOT_LEFT + i * slot;
+      const py = PLOT_BOTTOM - h;
+      return `  <rect class="bar" x="${px.toFixed(1)}" y="${py.toFixed(1)}" width="${(slot - BAR_GAP).toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="${theme.text}"/>`;
+    })
+    .join("\n");
+  const subtitle = `  <text x="${PLOT_RIGHT}" y="33" text-anchor="end" fill="${theme.subtext}" font-family="${FONT}" font-size="13">${fmtNum(total)} lines / ${days.length} days</text>
+  <text x="${PLOT_LEFT}" y="${PLOT_BOTTOM + 18}" fill="${theme.subtext}" font-family="${FONT}" font-size="11">${days[0]?.date ?? ""}</text>
+  <text x="${PLOT_RIGHT}" y="${PLOT_BOTTOM + 18}" text-anchor="end" fill="${theme.subtext}" font-family="${FONT}" font-size="11">${days.at(-1)?.date ?? ""}</text>`;
+  return cardFrame(GRAPH_WIDTH, GRAPH_HEIGHT, "Lines of Code Changed — Last 31 Days", `${bars}\n${subtitle}`);
+}
