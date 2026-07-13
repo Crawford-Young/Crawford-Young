@@ -225,7 +225,7 @@ export interface LocCommit {
 }
 
 const LOC_CARD_DAYS = 31;
-export const MS_PER_DAY = 86_400_000;
+const MS_PER_DAY = 86_400_000;
 
 /** Sum additions+deletions per UTC date; zero-fill; return the last `days` days ending at `todayIso`. */
 export function bucketLocByDay(
