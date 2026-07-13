@@ -10,7 +10,7 @@ TypeScript ESM (NodeNext, strict, `.js` import extensions) · tsx runner · pnpm
 
 | Command | What |
 |---|---|
-| `pnpm test` | 29 tests: renderer snapshots + streak/aggregation units |
+| `pnpm test` | 35 tests: renderer snapshots + streak/aggregation/LOC-bucketing units |
 | `pnpm generate` | Fetch GitHub GraphQL → write all `assets/*.svg` (needs `STATS_TOKEN` env — fine-grained read-only PAT, never commit) |
 | `pnpm export-claude` | Parse `~/.claude/projects/**/*.jsonl` → `data/claude-usage.json` (aggregate daily token counts only — no conversation content) |
 | `pnpm exec tsc --noEmit` | Typecheck |
@@ -18,8 +18,8 @@ TypeScript ESM (NodeNext, strict, `.js` import extensions) · tsx runner · pnpm
 ## Architecture
 
 - `src/theme.ts` — tokyonight palette + card frame helpers
-- `src/github.ts` — GraphQL fetchers; contribution calendar walked year-by-year (boundary days sum-merged, 1ms window advance)
-- `src/cards.ts` — stats / languages / streak / activity / claude renderers
+- `src/github.ts` — GraphQL fetchers; contribution calendar walked year-by-year (boundary days sum-merged, 1ms window advance); `fetchLocByDay` walks each owned repo's default-branch history (35-day window, author matched by `AUTHOR_EMAILS` — historical commits are unlinked to the account, so id-filtering finds nothing; merge commits skipped) → `bucketLocByDay` zero-fills the last 31 UTC days
+- `src/cards.ts` — stats / languages / streak / activity / claude / loc renderers (loc bars fill `theme.text` teal — `theme.icon` purple is the claude card)
 - `src/badges.ts` — flat-square badges, simple-icons paths vendored at build time
 - `src/claude.ts` — JSONL dedupe by message id, bucket by local date, invalid timestamps skipped BEFORE marking id seen
 - `src/generate.ts` — Action entry; claude.svg renders only if `data/claude-usage.json` exists (machine off = stale card, never broken)
