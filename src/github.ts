@@ -1,4 +1,4 @@
-import type { DayPoint, Rank, StatsData } from "./cards.js";
+import type { DayPoint, LocDay, Rank, StatsData } from "./cards.js";
 
 export interface Streaks {
   readonly total: number;
@@ -215,4 +215,35 @@ export async function fetchGithubData(token: string): Promise<GithubData> {
 
 export function lastNDays(days: readonly DayPoint[], n: number = ACTIVITY_DAYS): readonly DayPoint[] {
   return days.slice(-n);
+}
+
+export interface LocCommit {
+  readonly committedDate: string;
+  readonly additions: number;
+  readonly deletions: number;
+  readonly parentCount: number;
+}
+
+const LOC_CARD_DAYS = 31;
+export const MS_PER_DAY = 86_400_000;
+
+/** Sum additions+deletions per UTC date; zero-fill; return the last `days` days ending at `todayIso`. */
+export function bucketLocByDay(
+  commits: readonly LocCommit[],
+  todayIso: string,
+  days: number = LOC_CARD_DAYS,
+): readonly LocDay[] {
+  const totals = new Map<string, number>();
+  for (const c of commits) {
+    if (c.parentCount > 1) continue;
+    const date = c.committedDate.slice(0, 10);
+    totals.set(date, (totals.get(date) ?? 0) + c.additions + c.deletions);
+  }
+  const end = new Date(`${todayIso}T00:00:00Z`).getTime();
+  const out: LocDay[] = [];
+  for (let i = days - 1; i >= 0; i -= 1) {
+    const date = new Date(end - i * MS_PER_DAY).toISOString().slice(0, 10);
+    out.push({ date, changed: totals.get(date) ?? 0 });
+  }
+  return out;
 }
