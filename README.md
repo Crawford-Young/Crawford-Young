@@ -36,6 +36,10 @@
 </p>
 
 <p align="center">
+  <img src="./assets/loc.svg" alt="Lines of Code Changed" />
+</p>
+
+<p align="center">
   <img src="./assets/claude.svg" alt="Claude Code Usage" />
 </p>
 
