@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="220" viewBox="0 0 760 220" fill="none" role="img" aria-label="Lines of Code Changed — Last 31 Days">
+  <rect width="759" height="219" x="0.5" y="0.5" rx="6" fill="#1a1b27" stroke="#2a2c3f"/>
+  <text x="24" y="33" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="16" font-weight="600">Lines of Code Changed — Last 31 Days</text>
+  <rect class="bar" x="24.0" y="189.9" width="19.0" height="0.1" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="47.0" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="69.9" y="189.5" width="19.0" height="0.5" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="92.9" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="115.9" y="60.0" width="19.0" height="130.0" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="138.8" y="172.2" width="19.0" height="17.8" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="161.8" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="184.8" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="207.7" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="230.7" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="253.7" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="276.6" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="299.6" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="322.6" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="345.5" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="368.5" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="391.5" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="414.5" y="176.7" width="19.0" height="13.3" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="437.4" y="177.6" width="19.0" height="12.4" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="460.4" y="173.3" width="19.0" height="16.7" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="483.4" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="506.3" y="162.8" width="19.0" height="27.2" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="529.3" y="161.4" width="19.0" height="28.6" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="552.3" y="70.0" width="19.0" height="120.0" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="575.2" y="189.9" width="19.0" height="0.1" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="598.2" y="139.2" width="19.0" height="50.8" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="621.2" y="182.2" width="19.0" height="7.8" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="644.1" y="182.4" width="19.0" height="7.6" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="667.1" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="690.1" y="189.9" width="19.0" height="0.1" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="713.0" y="114.8" width="19.0" height="75.2" rx="2" fill="#38bdae"/>
+  <text x="736" y="33" text-anchor="end" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="13">74.4k lines / 31 days</text>
+  <text x="24" y="208" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="11">2026-06-13</text>
+  <text x="736" y="208" text-anchor="end" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="11">2026-07-13</text>
+</svg>
