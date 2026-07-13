@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { computeRank, computeStreaks } from "../src/github.js";
+import { bucketLocByDay, computeRank, computeStreaks } from "../src/github.js";
 
 function day(date: string, count: number): { date: string; count: number } {
   return { date, count };
@@ -36,5 +36,51 @@ describe("computeRank", () => {
     const r = computeRank({ stars: 0, commits: 0, prs: 0, issues: 0, contributedTo: 0 });
     expect(r.letter).toBe("B");
     expect(r.pct).toBeGreaterThanOrEqual(0.05);
+  });
+});
+
+function commit(
+  committedDate: string,
+  additions: number,
+  deletions: number,
+  parentCount = 1,
+): { committedDate: string; additions: number; deletions: number; parentCount: number } {
+  return { committedDate, additions, deletions, parentCount };
+}
+
+describe("bucketLocByDay", () => {
+  it("sums additions+deletions per UTC date", () => {
+    const days = bucketLocByDay(
+      [commit("2026-07-13T10:00:00Z", 100, 20), commit("2026-07-13T18:00:00Z", 5, 5)],
+      "2026-07-13",
+      3,
+    );
+    expect(days).toEqual([
+      { date: "2026-07-11", changed: 0 },
+      { date: "2026-07-12", changed: 0 },
+      { date: "2026-07-13", changed: 130 },
+    ]);
+  });
+  it("skips merge commits", () => {
+    const days = bucketLocByDay(
+      [commit("2026-07-13T10:00:00Z", 500, 500, 2), commit("2026-07-13T11:00:00Z", 10, 0)],
+      "2026-07-13",
+      1,
+    );
+    expect(days).toEqual([{ date: "2026-07-13", changed: 10 }]);
+  });
+  it("drops commits older than the window", () => {
+    const days = bucketLocByDay([commit("2026-07-01T10:00:00Z", 99, 0)], "2026-07-13", 2);
+    expect(days).toEqual([
+      { date: "2026-07-12", changed: 0 },
+      { date: "2026-07-13", changed: 0 },
+    ]);
+  });
+  it("returns a zero-filled 31-day window for empty input", () => {
+    const days = bucketLocByDay([], "2026-07-13");
+    expect(days).toHaveLength(31);
+    expect(days[0]).toEqual({ date: "2026-06-13", changed: 0 });
+    expect(days.at(-1)).toEqual({ date: "2026-07-13", changed: 0 });
+    expect(days.every((d) => d.changed === 0)).toBe(true);
   });
 });
