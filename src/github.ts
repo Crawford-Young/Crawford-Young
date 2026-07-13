@@ -247,3 +247,113 @@ export function bucketLocByDay(
   }
   return out;
 }
+
+const LOC_WINDOW_DAYS = 35;
+const HISTORY_PAGE_SIZE = 100;
+
+interface UserIdQuery {
+  user: { id: string };
+}
+
+const USER_ID_QUERY = `query($login: String!) {
+  user(login: $login) { id }
+}`;
+
+interface HistoryPage {
+  nodes: ReadonlyArray<{
+    committedDate: string;
+    additions: number;
+    deletions: number;
+    parents: { totalCount: number };
+  }>;
+  pageInfo: { hasNextPage: boolean; endCursor: string | null };
+}
+
+const HISTORY_FIELDS = `nodes { committedDate additions deletions parents(first: 1) { totalCount } }
+                pageInfo { hasNextPage endCursor }`;
+
+interface LocReposQuery {
+  user: {
+    repositories: {
+      nodes: ReadonlyArray<{
+        name: string;
+        defaultBranchRef: { target: { history?: HistoryPage } | null } | null;
+      }>;
+    };
+  };
+}
+
+const LOC_REPOS_QUERY = `query($login: String!, $since: GitTimestamp!, $authorId: ID!) {
+  user(login: $login) {
+    repositories(ownerAffiliations: OWNER, first: 100, isFork: false) {
+      nodes {
+        name
+        defaultBranchRef {
+          target {
+            ... on Commit {
+              history(since: $since, author: { id: $authorId }, first: ${HISTORY_PAGE_SIZE}) {
+                ${HISTORY_FIELDS}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+interface LocHistoryPageQuery {
+  repository: {
+    defaultBranchRef: { target: { history?: HistoryPage } | null } | null;
+  };
+}
+
+const LOC_HISTORY_PAGE_QUERY = `query($login: String!, $name: String!, $since: GitTimestamp!, $authorId: ID!, $after: String!) {
+  repository(owner: $login, name: $name) {
+    defaultBranchRef {
+      target {
+        ... on Commit {
+          history(since: $since, author: { id: $authorId }, first: ${HISTORY_PAGE_SIZE}, after: $after) {
+            ${HISTORY_FIELDS}
+          }
+        }
+      }
+    }
+  }
+}`;
+
+export async function fetchLocByDay(token: string): Promise<readonly LocDay[]> {
+  const authorId = (await gql<UserIdQuery>(token, USER_ID_QUERY, { login: LOGIN })).user.id;
+  const since = new Date(Date.now() - LOC_WINDOW_DAYS * MS_PER_DAY).toISOString();
+  const commits: LocCommit[] = [];
+
+  const repos = (
+    await gql<LocReposQuery>(token, LOC_REPOS_QUERY, { login: LOGIN, since, authorId })
+  ).user.repositories.nodes;
+
+  for (const repo of repos) {
+    let page = repo.defaultBranchRef?.target?.history;
+    while (page) {
+      for (const c of page.nodes) {
+        commits.push({
+          committedDate: c.committedDate,
+          additions: c.additions,
+          deletions: c.deletions,
+          parentCount: c.parents.totalCount,
+        });
+      }
+      if (!page.pageInfo.hasNextPage || page.pageInfo.endCursor === null) break;
+      page = (
+        await gql<LocHistoryPageQuery>(token, LOC_HISTORY_PAGE_QUERY, {
+          login: LOGIN,
+          name: repo.name,
+          since,
+          authorId,
+          after: page.pageInfo.endCursor,
+        })
+      ).repository.defaultBranchRef?.target?.history;
+    }
+  }
+
+  return bucketLocByDay(commits, new Date().toISOString().slice(0, 10));
+}
