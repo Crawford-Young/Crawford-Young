@@ -5,12 +5,19 @@ import {
   renderActivityCard,
   renderClaudeCard,
   renderLanguagesCard,
+  renderLocCard,
   renderStatsCard,
   renderStreakCard,
 } from "./cards.js";
 import type { UsageByDate } from "./claude.js";
 import { toClaudeDays } from "./claude.js";
-import { computeRank, computeStreaks, fetchGithubData, lastNDays } from "./github.js";
+import {
+  computeRank,
+  computeStreaks,
+  fetchGithubData,
+  fetchLocByDay,
+  lastNDays,
+} from "./github.js";
 
 const ASSETS = "assets";
 const BADGES_DIR = join(ASSETS, "badges");
@@ -30,6 +37,7 @@ writeFileSync(join(ASSETS, "stats.svg"), renderStatsCard(data.stats, computeRank
 writeFileSync(join(ASSETS, "languages.svg"), renderLanguagesCard(data.languages));
 writeFileSync(join(ASSETS, "streak.svg"), renderStreakCard(computeStreaks(data.allDays)));
 writeFileSync(join(ASSETS, "activity.svg"), renderActivityCard(lastNDays(data.allDays)));
+writeFileSync(join(ASSETS, "loc.svg"), renderLocCard(await fetchLocByDay(token)));
 
 if (existsSync(USAGE_FILE)) {
   const usage = JSON.parse(readFileSync(USAGE_FILE, "utf8")) as UsageByDate;
