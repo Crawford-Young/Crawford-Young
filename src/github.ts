@@ -251,13 +251,12 @@ export function bucketLocByDay(
 const LOC_WINDOW_DAYS = 35;
 const HISTORY_PAGE_SIZE = 100;
 
-interface UserIdQuery {
-  user: { id: string };
-}
-
-const USER_ID_QUERY = `query($login: String!) {
-  user(login: $login) { id }
-}`;
+/** Local git identities whose commits count as the user's — matched by author email
+ *  because historical commits are not linked to the GitHub account. */
+const AUTHOR_EMAILS = [
+  "dev@example.com",
+  "143555043+Crawford-Young@users.noreply.github.com",
+];
 
 interface HistoryPage {
   nodes: ReadonlyArray<{
@@ -283,7 +282,7 @@ interface LocReposQuery {
   };
 }
 
-const LOC_REPOS_QUERY = `query($login: String!, $since: GitTimestamp!, $authorId: ID!) {
+const LOC_REPOS_QUERY = `query($login: String!, $since: GitTimestamp!, $emails: [String!]!) {
   user(login: $login) {
     repositories(ownerAffiliations: OWNER, first: 100, isFork: false) {
       nodes {
@@ -291,7 +290,7 @@ const LOC_REPOS_QUERY = `query($login: String!, $since: GitTimestamp!, $authorId
         defaultBranchRef {
           target {
             ... on Commit {
-              history(since: $since, author: { id: $authorId }, first: ${HISTORY_PAGE_SIZE}) {
+              history(since: $since, author: { emails: $emails }, first: ${HISTORY_PAGE_SIZE}) {
                 ${HISTORY_FIELDS}
               }
             }
@@ -308,12 +307,12 @@ interface LocHistoryPageQuery {
   };
 }
 
-const LOC_HISTORY_PAGE_QUERY = `query($login: String!, $name: String!, $since: GitTimestamp!, $authorId: ID!, $after: String!) {
+const LOC_HISTORY_PAGE_QUERY = `query($login: String!, $name: String!, $since: GitTimestamp!, $emails: [String!]!, $after: String!) {
   repository(owner: $login, name: $name) {
     defaultBranchRef {
       target {
         ... on Commit {
-          history(since: $since, author: { id: $authorId }, first: ${HISTORY_PAGE_SIZE}, after: $after) {
+          history(since: $since, author: { emails: $emails }, first: ${HISTORY_PAGE_SIZE}, after: $after) {
             ${HISTORY_FIELDS}
           }
         }
@@ -323,12 +322,15 @@ const LOC_HISTORY_PAGE_QUERY = `query($login: String!, $name: String!, $since: G
 }`;
 
 export async function fetchLocByDay(token: string): Promise<readonly LocDay[]> {
-  const authorId = (await gql<UserIdQuery>(token, USER_ID_QUERY, { login: LOGIN })).user.id;
   const since = new Date(Date.now() - LOC_WINDOW_DAYS * MS_PER_DAY).toISOString();
   const commits: LocCommit[] = [];
 
   const repos = (
-    await gql<LocReposQuery>(token, LOC_REPOS_QUERY, { login: LOGIN, since, authorId })
+    await gql<LocReposQuery>(token, LOC_REPOS_QUERY, {
+      login: LOGIN,
+      since,
+      emails: AUTHOR_EMAILS,
+    })
   ).user.repositories.nodes;
 
   for (const repo of repos) {
@@ -348,7 +350,7 @@ export async function fetchLocByDay(token: string): Promise<readonly LocDay[]> {
           login: LOGIN,
           name: repo.name,
           since,
-          authorId,
+          emails: AUTHOR_EMAILS,
           after: page.pageInfo.endCursor,
         })
       ).repository.defaultBranchRef?.target?.history;
