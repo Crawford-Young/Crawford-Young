@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="450" height="170" viewBox="0 0 450 170" fill="none" role="img" aria-label="Contribution Streak">
   <rect width="449" height="169" x="0.5" y="0.5" rx="6" fill="#1a1b27" stroke="#2a2c3f"/>
   <text x="24" y="33" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="16" font-weight="600">Contribution Streak</text>
-  <text x="85" y="95" text-anchor="middle" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="28" font-weight="700">396</text>
+  <text x="85" y="95" text-anchor="middle" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="28" font-weight="700">468</text>
   <text x="85" y="125" text-anchor="middle" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="13">Total Contributions</text>
-  <text x="225" y="95" text-anchor="middle" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="28" font-weight="700">0</text>
+  <text x="225" y="95" text-anchor="middle" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="28" font-weight="700">4</text>
   <text x="225" y="125" text-anchor="middle" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="13">Current Streak</text>
   <text x="365" y="95" text-anchor="middle" fill="#70a5fd" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="28" font-weight="700">18</text>
   <text x="365" y="125" text-anchor="middle" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="13">Longest Streak</text>
