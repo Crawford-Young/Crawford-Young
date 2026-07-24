@@ -271,32 +271,23 @@ interface HistoryPage {
 const HISTORY_FIELDS = `nodes { committedDate additions deletions parents(first: 1) { totalCount } }
                 pageInfo { hasNextPage endCursor }`;
 
+interface LocRepo {
+  name: string;
+  pushedAt: string;
+}
+
 interface LocReposQuery {
   user: {
-    repositories: {
-      nodes: ReadonlyArray<{
-        name: string;
-        defaultBranchRef: { target: { history?: HistoryPage } | null } | null;
-      }>;
-    };
+    repositories: { nodes: ReadonlyArray<LocRepo> };
   };
 }
 
-const LOC_REPOS_QUERY = `query($login: String!, $since: GitTimestamp!, $emails: [String!]!) {
+/** Repo list only — history is fetched one repo at a time; a single query walking
+ *  every repo's diff stats exceeds GitHub's GraphQL execution timeout (nginx 502). */
+const LOC_REPOS_QUERY = `query($login: String!) {
   user(login: $login) {
     repositories(ownerAffiliations: OWNER, first: 100, isFork: false) {
-      nodes {
-        name
-        defaultBranchRef {
-          target {
-            ... on Commit {
-              history(since: $since, author: { emails: $emails }, first: ${HISTORY_PAGE_SIZE}) {
-                ${HISTORY_FIELDS}
-              }
-            }
-          }
-        }
-      }
+      nodes { name pushedAt }
     }
   }
 }`;
@@ -307,7 +298,7 @@ interface LocHistoryPageQuery {
   };
 }
 
-const LOC_HISTORY_PAGE_QUERY = `query($login: String!, $name: String!, $since: GitTimestamp!, $emails: [String!]!, $after: String!) {
+const LOC_HISTORY_PAGE_QUERY = `query($login: String!, $name: String!, $since: GitTimestamp!, $emails: [String!]!, $after: String) {
   repository(owner: $login, name: $name) {
     defaultBranchRef {
       target {
@@ -321,21 +312,34 @@ const LOC_HISTORY_PAGE_QUERY = `query($login: String!, $name: String!, $since: G
   }
 }`;
 
+export function filterReposPushedSince<T extends LocRepo>(
+  repos: ReadonlyArray<T>,
+  sinceIso: string,
+): T[] {
+  return repos.filter((r) => r.pushedAt >= sinceIso);
+}
+
 export async function fetchLocByDay(token: string): Promise<readonly LocDay[]> {
   const since = new Date(Date.now() - LOC_WINDOW_DAYS * MS_PER_DAY).toISOString();
   const commits: LocCommit[] = [];
 
   const repos = (
-    await gql<LocReposQuery>(token, LOC_REPOS_QUERY, {
-      login: LOGIN,
-      since,
-      emails: AUTHOR_EMAILS,
-    })
+    await gql<LocReposQuery>(token, LOC_REPOS_QUERY, { login: LOGIN })
   ).user.repositories.nodes;
 
-  for (const repo of repos) {
-    let page = repo.defaultBranchRef?.target?.history;
-    while (page) {
+  for (const repo of filterReposPushedSince(repos, since)) {
+    let after: string | null = null;
+    do {
+      const page: HistoryPage | undefined = (
+        await gql<LocHistoryPageQuery>(token, LOC_HISTORY_PAGE_QUERY, {
+          login: LOGIN,
+          name: repo.name,
+          since,
+          emails: AUTHOR_EMAILS,
+          after,
+        })
+      ).repository.defaultBranchRef?.target?.history;
+      if (!page) break;
       for (const c of page.nodes) {
         commits.push({
           committedDate: c.committedDate,
@@ -344,17 +348,8 @@ export async function fetchLocByDay(token: string): Promise<readonly LocDay[]> {
           parentCount: c.parents.totalCount,
         });
       }
-      if (!page.pageInfo.hasNextPage || page.pageInfo.endCursor === null) break;
-      page = (
-        await gql<LocHistoryPageQuery>(token, LOC_HISTORY_PAGE_QUERY, {
-          login: LOGIN,
-          name: repo.name,
-          since,
-          emails: AUTHOR_EMAILS,
-          after: page.pageInfo.endCursor,
-        })
-      ).repository.defaultBranchRef?.target?.history;
-    }
+      after = page.pageInfo.hasNextPage ? page.pageInfo.endCursor : null;
+    } while (after !== null);
   }
 
   return bucketLocByDay(commits, new Date().toISOString().slice(0, 10));
