@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { bucketLocByDay, computeRank, computeStreaks } from "../src/github.js";
+import {
+  bucketLocByDay,
+  computeRank,
+  computeStreaks,
+  filterReposPushedSince,
+} from "../src/github.js";
 
 function day(date: string, count: number): { date: string; count: number } {
   return { date, count };
@@ -36,6 +41,23 @@ describe("computeRank", () => {
     const r = computeRank({ stars: 0, commits: 0, prs: 0, issues: 0, contributedTo: 0 });
     expect(r.letter).toBe("B");
     expect(r.pct).toBeGreaterThanOrEqual(0.05);
+  });
+});
+
+describe("filterReposPushedSince", () => {
+  const repos = [
+    { name: "active", pushedAt: "2026-07-20T12:00:00Z" },
+    { name: "stale", pushedAt: "2026-05-01T00:00:00Z" },
+    { name: "boundary", pushedAt: "2026-06-19T00:00:00Z" },
+  ];
+  it("keeps repos pushed at or after the window start", () => {
+    expect(filterReposPushedSince(repos, "2026-06-19T00:00:00Z").map((r) => r.name)).toEqual([
+      "active",
+      "boundary",
+    ]);
+  });
+  it("returns empty for all-stale input", () => {
+    expect(filterReposPushedSince(repos, "2026-08-01T00:00:00Z")).toEqual([]);
   });
 });
 
