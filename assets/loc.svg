@@ -7,16 +7,16 @@
   <rect class="bar" x="92.9" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
   <rect class="bar" x="115.9" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
   <rect class="bar" x="138.8" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
-  <rect class="bar" x="161.8" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
-  <rect class="bar" x="184.8" y="179.5" width="19.0" height="10.5" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="161.8" y="179.5" width="19.0" height="10.5" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="184.8" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
   <rect class="bar" x="207.7" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
   <rect class="bar" x="230.7" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
   <rect class="bar" x="253.7" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
   <rect class="bar" x="276.6" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
   <rect class="bar" x="299.6" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
-  <rect class="bar" x="322.6" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
-  <rect class="bar" x="345.5" y="60.0" width="19.0" height="130.0" rx="2" fill="#38bdae"/>
-  <rect class="bar" x="368.5" y="189.3" width="19.0" height="0.7" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="322.6" y="60.0" width="19.0" height="130.0" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="345.5" y="189.3" width="19.0" height="0.7" rx="2" fill="#38bdae"/>
+  <rect class="bar" x="368.5" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
   <rect class="bar" x="391.5" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
   <rect class="bar" x="414.5" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
   <rect class="bar" x="437.4" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
@@ -33,6 +33,6 @@
   <rect class="bar" x="690.1" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
   <rect class="bar" x="713.0" y="190.0" width="19.0" height="0.0" rx="2" fill="#38bdae"/>
   <text x="736" y="33" text-anchor="end" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="13">3.4k lines / 31 days</text>
-  <text x="24" y="208" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="11">2026-09-07</text>
-  <text x="736" y="208" text-anchor="end" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="11">2026-10-07</text>
+  <text x="24" y="208" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="11">2026-09-08</text>
+  <text x="736" y="208" text-anchor="end" fill="#9aa5ce" font-family="'Segoe UI', Ubuntu, sans-serif" font-size="11">2026-10-08</text>
 </svg>
