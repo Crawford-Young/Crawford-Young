@@ -1,65 +1,81 @@
-import type { DayPoint, LocDay, Rank, StatsData } from "./cards.js";
-
-export interface Streaks {
-  readonly total: number;
-  readonly current: number;
-  readonly longest: number;
-}
-
-/** Days must be in ascending date order, last entry = today. */
-export function computeStreaks(days: readonly DayPoint[]): Streaks {
-  const total = days.reduce((sum, d) => sum + d.count, 0);
-  let longest = 0;
-  let run = 0;
-  for (const d of days) {
-    run = d.count > 0 ? run + 1 : 0;
-    longest = Math.max(longest, run);
-  }
-  let current = 0;
-  // Today with 0 contributions does not break the streak — start from the
-  // last day with activity if that day is today or yesterday.
-  let i = days.length - 1;
-  if (i >= 0 && days[i]!.count === 0) i -= 1;
-  for (; i >= 0 && days[i]!.count > 0; i -= 1) current += 1;
-  return { total, current, longest };
-}
-
-const RANK_WEIGHTS = {
-  commits: 1_000,
-  prs: 100,
-  issues: 50,
-  stars: 100,
-  contributedTo: 20,
-} as const;
-const RANK_S_SCORE = 4;
-const MIN_RING_PCT = 0.05;
-
-export function computeRank(s: StatsData): Rank {
-  const score =
-    s.commits / RANK_WEIGHTS.commits +
-    s.prs / RANK_WEIGHTS.prs +
-    s.issues / RANK_WEIGHTS.issues +
-    s.stars / RANK_WEIGHTS.stars +
-    s.contributedTo / RANK_WEIGHTS.contributedTo;
-  const pct = Math.max(MIN_RING_PCT, Math.min(1, score / RANK_S_SCORE));
-  let letter = "B";
-  if (score >= 4) letter = "S";
-  else if (score >= 3) letter = "A+";
-  else if (score >= 2) letter = "A";
-  else if (score >= 1) letter = "B+";
-  return { letter, pct };
-}
+import type { CalendarDay } from "./calendar.js";
+import type { LanguageSlice, OverviewData } from "./cards.js";
 
 const API_URL = "https://api.github.com/graphql";
-export const LOGIN = "Crawford-Young";
+const LOGIN = "Crawford-Young";
 const TOP_LANGUAGES = 6;
-const ACTIVITY_DAYS = 31;
+const LANGUAGE_WINDOW_DAYS = 365;
+const DAY_MS = 86_400_000;
 
-async function gql<T>(
-  token: string,
-  query: string,
-  variables: Record<string, unknown>,
-): Promise<T> {
+/** Markup, styling, notebooks and build/shell glue — they say little about what the code is written in. */
+const EXCLUDED_LANGUAGES: ReadonlySet<string> = new Set([
+  "Jupyter Notebook",
+  "HTML",
+  "CSS",
+  "SCSS",
+  "Shell",
+  "PowerShell",
+  "Dockerfile",
+  "Makefile",
+  "Batchfile",
+]);
+
+export interface LanguageRepo {
+  readonly pushedAt: string;
+  readonly languages: {
+    readonly edges: ReadonlyArray<{
+      readonly size: number;
+      readonly node: { readonly name: string; readonly color: string | null };
+    }>;
+  };
+}
+
+export interface ContributionsCollection {
+  readonly totalCommitContributions: number;
+  readonly totalPullRequestContributions: number;
+  readonly totalIssueContributions: number;
+  readonly totalRepositoriesWithContributedCommits: number;
+  readonly contributionCalendar: {
+    readonly totalContributions: number;
+    readonly weeks: ReadonlyArray<{
+      readonly contributionDays: ReadonlyArray<{ readonly date: string; readonly contributionCount: number }>;
+    }>;
+  };
+}
+
+interface ProfileQuery {
+  readonly user: {
+    readonly contributionsCollection: ContributionsCollection;
+    readonly repositories: { readonly nodes: readonly LanguageRepo[] };
+  };
+}
+
+/** Public data only, so the Action's own GITHUB_TOKEN can read it. The default
+ *  contributionsCollection window is the last year, matching the profile calendar. */
+const PROFILE_QUERY = `query($login: String!) {
+  user(login: $login) {
+    contributionsCollection {
+      totalCommitContributions
+      totalPullRequestContributions
+      totalIssueContributions
+      totalRepositoriesWithContributedCommits
+      contributionCalendar {
+        totalContributions
+        weeks { contributionDays { date contributionCount } }
+      }
+    }
+    repositories(ownerAffiliations: OWNER, privacy: PUBLIC, isFork: false, first: 100, orderBy: { field: PUSHED_AT, direction: DESC }) {
+      nodes {
+        pushedAt
+        languages(first: 10, orderBy: { field: SIZE, direction: DESC }) {
+          edges { size node { name color } }
+        }
+      }
+    }
+  }
+}`;
+
+async function gql<T>(token: string, query: string, variables: Record<string, unknown>): Promise<T> {
   const res = await fetch(API_URL, {
     method: "POST",
     headers: {
@@ -78,279 +94,54 @@ async function gql<T>(
   return json.data;
 }
 
-interface ProfileQuery {
-  user: {
-    createdAt: string;
-    pullRequests: { totalCount: number };
-    issues: { totalCount: number };
-    repositoriesContributedTo: { totalCount: number };
-    repositories: {
-      nodes: ReadonlyArray<{
-        stargazerCount: number;
-        languages: {
-          edges: ReadonlyArray<{
-            size: number;
-            node: { name: string; color: string | null };
-          }>;
-        };
-      }>;
-    };
-  };
-}
-
-const PROFILE_QUERY = `query($login: String!) {
-  user(login: $login) {
-    createdAt
-    pullRequests { totalCount }
-    issues { totalCount }
-    repositoriesContributedTo(contributionTypes: [COMMIT, PULL_REQUEST, ISSUE, REPOSITORY]) { totalCount }
-    repositories(ownerAffiliations: OWNER, first: 100, isFork: false) {
-      nodes {
-        stargazerCount
-        languages(first: 10, orderBy: { field: SIZE, direction: DESC }) {
-          edges { size node { name color } }
-        }
-      }
+/** Top languages by bytes across repos pushed at or after `sinceIso`, minus the excluded set. */
+export function summarizeLanguages(
+  repos: readonly LanguageRepo[],
+  sinceIso: string,
+  top: number = TOP_LANGUAGES,
+): LanguageSlice[] {
+  const totals = new Map<string, { color: string | null; size: number }>();
+  for (const repo of repos) {
+    if (repo.pushedAt < sinceIso) continue;
+    for (const { size, node } of repo.languages.edges) {
+      if (EXCLUDED_LANGUAGES.has(node.name)) continue;
+      const prev = totals.get(node.name);
+      totals.set(node.name, { color: node.color, size: (prev?.size ?? 0) + size });
     }
   }
-}`;
-
-interface CalendarQuery {
-  user: {
-    contributionsCollection: {
-      totalCommitContributions: number;
-      restrictedContributionsCount: number;
-      contributionCalendar: {
-        weeks: ReadonlyArray<{
-          contributionDays: ReadonlyArray<{ date: string; contributionCount: number }>;
-        }>;
-      };
-    };
-  };
-}
-
-const CALENDAR_QUERY = `query($login: String!, $from: DateTime!, $to: DateTime!) {
-  user(login: $login) {
-    contributionsCollection(from: $from, to: $to) {
-      totalCommitContributions
-      restrictedContributionsCount
-      contributionCalendar {
-        weeks { contributionDays { date contributionCount } }
-      }
-    }
-  }
-}`;
-
-export interface GithubData {
-  readonly stats: StatsData;
-  readonly languages: ReadonlyArray<{ name: string; color: string | null; size: number }>;
-  readonly allDays: readonly DayPoint[];
-}
-
-export async function fetchGithubData(token: string): Promise<GithubData> {
-  const profile = (await gql<ProfileQuery>(token, PROFILE_QUERY, { login: LOGIN })).user;
-
-  const langTotals = new Map<string, { color: string | null; size: number }>();
-  let stars = 0;
-  for (const repo of profile.repositories.nodes) {
-    stars += repo.stargazerCount;
-    for (const edge of repo.languages.edges) {
-      const prev = langTotals.get(edge.node.name);
-      langTotals.set(edge.node.name, {
-        color: edge.node.color,
-        size: (prev?.size ?? 0) + edge.size,
-      });
-    }
-  }
-  const languages = [...langTotals.entries()]
+  return [...totals.entries()]
     .map(([name, v]) => ({ name, color: v.color, size: v.size }))
     .sort((a, b) => b.size - a.size)
-    .slice(0, TOP_LANGUAGES);
+    .slice(0, top);
+}
 
-  // GraphQL caps contributionsCollection at 1 year — walk from account creation.
-  const allDays: DayPoint[] = [];
-  let commits = 0;
-  const created = new Date(profile.createdAt);
-  const now = new Date();
-  for (let from = created; from < now; ) {
-    const to = new Date(Math.min(
-      now.getTime(),
-      new Date(from).setFullYear(from.getFullYear() + 1),
-    ));
-    const col = (
-      await gql<CalendarQuery>(token, CALENDAR_QUERY, {
-        login: LOGIN,
-        from: from.toISOString(),
-        to: to.toISOString(),
-      })
-    ).user.contributionsCollection;
-    commits += col.totalCommitContributions + col.restrictedContributionsCount;
-    for (const week of col.contributionCalendar.weeks) {
-      for (const d of week.contributionDays) {
-        const last = allDays.at(-1);
-        if (last?.date === d.date) {
-          // Day split across two windows — sum the partial counts.
-          allDays[allDays.length - 1] = { date: d.date, count: last.count + d.contributionCount };
-        } else {
-          allDays.push({ date: d.date, count: d.contributionCount });
-        }
-      }
-    }
-    // `to` is inclusive — start next window 1ms later to avoid double-counting.
-    from = new Date(to.getTime() + 1);
-  }
-
+/** Commits only: private (restricted) activity is already inside the contributions total. */
+export function toOverview(c: ContributionsCollection): OverviewData {
   return {
-    stats: {
-      stars,
-      commits,
-      prs: profile.pullRequests.totalCount,
-      issues: profile.issues.totalCount,
-      contributedTo: profile.repositoriesContributedTo.totalCount,
-    },
-    languages,
-    allDays,
+    contributions: c.contributionCalendar.totalContributions,
+    commits: c.totalCommitContributions,
+    pullRequests: c.totalPullRequestContributions,
+    issues: c.totalIssueContributions,
+    repositories: c.totalRepositoriesWithContributedCommits,
   };
 }
 
-export function lastNDays(days: readonly DayPoint[], n: number = ACTIVITY_DAYS): readonly DayPoint[] {
-  return days.slice(-n);
+export interface GithubData {
+  readonly days: readonly CalendarDay[];
+  readonly overview: OverviewData;
+  readonly languages: readonly LanguageSlice[];
 }
 
-export interface LocCommit {
-  readonly committedDate: string;
-  readonly additions: number;
-  readonly deletions: number;
-  readonly parentCount: number;
-}
-
-const LOC_CARD_DAYS = 31;
-const MS_PER_DAY = 86_400_000;
-
-/** Sum additions+deletions per UTC date; zero-fill; return the last `days` days ending at `todayIso`. */
-export function bucketLocByDay(
-  commits: readonly LocCommit[],
-  todayIso: string,
-  days: number = LOC_CARD_DAYS,
-): readonly LocDay[] {
-  const totals = new Map<string, number>();
-  for (const c of commits) {
-    if (c.parentCount > 1) continue;
-    const date = c.committedDate.slice(0, 10);
-    totals.set(date, (totals.get(date) ?? 0) + c.additions + c.deletions);
-  }
-  const end = new Date(`${todayIso}T00:00:00Z`).getTime();
-  const out: LocDay[] = [];
-  for (let i = days - 1; i >= 0; i -= 1) {
-    const date = new Date(end - i * MS_PER_DAY).toISOString().slice(0, 10);
-    out.push({ date, changed: totals.get(date) ?? 0 });
-  }
-  return out;
-}
-
-const LOC_WINDOW_DAYS = 35;
-const HISTORY_PAGE_SIZE = 100;
-
-/** Local git identities whose commits count as the user's — matched by author email
- *  because historical commits are not linked to the GitHub account. */
-const AUTHOR_EMAILS = [
-  "dev@example.com",
-  "143555043+Crawford-Young@users.noreply.github.com",
-];
-
-interface HistoryPage {
-  nodes: ReadonlyArray<{
-    committedDate: string;
-    additions: number;
-    deletions: number;
-    parents: { totalCount: number };
-  }>;
-  pageInfo: { hasNextPage: boolean; endCursor: string | null };
-}
-
-const HISTORY_FIELDS = `nodes { committedDate additions deletions parents(first: 1) { totalCount } }
-                pageInfo { hasNextPage endCursor }`;
-
-interface LocRepo {
-  name: string;
-  pushedAt: string;
-}
-
-interface LocReposQuery {
-  user: {
-    repositories: { nodes: ReadonlyArray<LocRepo> };
+export async function fetchGithubData(token: string, now: Date = new Date()): Promise<GithubData> {
+  const { contributionsCollection: col, repositories } = (
+    await gql<ProfileQuery>(token, PROFILE_QUERY, { login: LOGIN })
+  ).user;
+  const since = new Date(now.getTime() - LANGUAGE_WINDOW_DAYS * DAY_MS).toISOString();
+  return {
+    days: col.contributionCalendar.weeks.flatMap((w) =>
+      w.contributionDays.map((d) => ({ date: d.date, count: d.contributionCount })),
+    ),
+    overview: toOverview(col),
+    languages: summarizeLanguages(repositories.nodes, since),
   };
-}
-
-/** Repo list only — history is fetched one repo at a time; a single query walking
- *  every repo's diff stats exceeds GitHub's GraphQL execution timeout (nginx 502). */
-const LOC_REPOS_QUERY = `query($login: String!) {
-  user(login: $login) {
-    repositories(ownerAffiliations: OWNER, first: 100, isFork: false) {
-      nodes { name pushedAt }
-    }
-  }
-}`;
-
-interface LocHistoryPageQuery {
-  repository: {
-    defaultBranchRef: { target: { history?: HistoryPage } | null } | null;
-  };
-}
-
-const LOC_HISTORY_PAGE_QUERY = `query($login: String!, $name: String!, $since: GitTimestamp!, $emails: [String!]!, $after: String) {
-  repository(owner: $login, name: $name) {
-    defaultBranchRef {
-      target {
-        ... on Commit {
-          history(since: $since, author: { emails: $emails }, first: ${HISTORY_PAGE_SIZE}, after: $after) {
-            ${HISTORY_FIELDS}
-          }
-        }
-      }
-    }
-  }
-}`;
-
-export function filterReposPushedSince<T extends LocRepo>(
-  repos: ReadonlyArray<T>,
-  sinceIso: string,
-): T[] {
-  return repos.filter((r) => r.pushedAt >= sinceIso);
-}
-
-export async function fetchLocByDay(token: string): Promise<readonly LocDay[]> {
-  const since = new Date(Date.now() - LOC_WINDOW_DAYS * MS_PER_DAY).toISOString();
-  const commits: LocCommit[] = [];
-
-  const repos = (
-    await gql<LocReposQuery>(token, LOC_REPOS_QUERY, { login: LOGIN })
-  ).user.repositories.nodes;
-
-  for (const repo of filterReposPushedSince(repos, since)) {
-    let after: string | null = null;
-    do {
-      const page: HistoryPage | undefined = (
-        await gql<LocHistoryPageQuery>(token, LOC_HISTORY_PAGE_QUERY, {
-          login: LOGIN,
-          name: repo.name,
-          since,
-          emails: AUTHOR_EMAILS,
-          after,
-        })
-      ).repository.defaultBranchRef?.target?.history;
-      if (!page) break;
-      for (const c of page.nodes) {
-        commits.push({
-          committedDate: c.committedDate,
-          additions: c.additions,
-          deletions: c.deletions,
-          parentCount: c.parents.totalCount,
-        });
-      }
-      after = page.pageInfo.hasNextPage ? page.pageInfo.endCursor : null;
-    } while (after !== null);
-  }
-
-  return bucketLocByDay(commits, new Date().toISOString().slice(0, 10));
 }

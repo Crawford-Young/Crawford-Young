@@ -7,6 +7,8 @@ export interface DailyUsage {
 
 export type UsageByDate = Record<string, DailyUsage>;
 
+const DAY_MS = 86_400_000;
+
 interface TranscriptLine {
   readonly type?: string;
   readonly timestamp?: string;
@@ -64,9 +66,18 @@ export function mergeUsage(existing: UsageByDate, fresh: UsageByDate): UsageByDa
   return { ...existing, ...fresh };
 }
 
-export function toClaudeDays(usage: UsageByDate, n: number): readonly ClaudeDay[] {
-  return Object.entries(usage)
-    .sort(([a], [b]) => a.localeCompare(b))
-    .slice(-n)
-    .map(([date, u]) => ({ date, tokens: u.input + u.output }));
+/** Last day of the claude card: the UTC day before generation. The Action runs at 06:00 UTC and
+ *  the local export at 18:00 local, so the generation day itself never has data yet. */
+export function claudeWindowEnd(now: Date): string {
+  return new Date(now.getTime() - DAY_MS).toISOString().slice(0, 10);
+}
+
+/** The `n` days ending on `endIso`, zero-filled — stale data shows as zeros instead of shifting the window. */
+export function toClaudeDays(usage: UsageByDate, n: number, endIso: string): readonly ClaudeDay[] {
+  const endMs = Date.parse(`${endIso}T00:00:00Z`);
+  return Array.from({ length: n }, (_, i) => {
+    const date = new Date(endMs - (n - 1 - i) * DAY_MS).toISOString().slice(0, 10);
+    const u = usage[date];
+    return { date, tokens: u ? u.input + u.output : 0 };
+  });
 }

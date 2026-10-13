@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="70" height="20" role="img" aria-label="Vercel">
+  <rect width="70" height="20" fill="#000000"/>
+  <g transform="translate(5, 3) scale(0.5833333333333334)"><path d="m12 1.608 12 20.784H0Z" fill="#ffffff"/></g>
+  <text x="24" y="14" fill="#ffffff" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="11">Vercel</text>
+</svg>

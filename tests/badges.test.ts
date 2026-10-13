@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { BADGES, renderBadge } from "../src/badges.js";
+import { BADGES, renderBadge, textColorFor } from "../src/badges.js";
 
 describe("renderBadge", () => {
   it("renders label text and background color", () => {
@@ -26,9 +26,47 @@ describe("renderBadge", () => {
   });
 });
 
+describe("textColorFor", () => {
+  it("puts dark text on light backgrounds and light text on dark ones", () => {
+    expect(textColorFor("#61DAFB")).toBe("#000000");
+    expect(textColorFor("#000000")).toBe("#ffffff");
+    expect(textColorFor("#3178C6")).toBe("#ffffff");
+  });
+});
+
 describe("BADGES", () => {
-  it("defines all 10 badges with unique filenames", () => {
-    expect(BADGES).toHaveLength(10);
-    expect(new Set(BADGES.map((b) => b.file)).size).toBe(10);
+  const files = BADGES.map((b) => b.file);
+
+  it("defines the link badges plus the four stack groups, uniquely named", () => {
+    expect(files).toEqual([
+      "linkedin.svg",
+      "portfolio.svg",
+      "typescript.svg",
+      "react.svg",
+      "nextjs.svg",
+      "tailwind.svg",
+      "radix-ui.svg",
+      "vitest.svg",
+      "playwright.svg",
+      "vercel.svg",
+      "expo.svg",
+      "react-native.svg",
+      "tauri.svg",
+      "rust.svg",
+      "godot.svg",
+      "gdscript.svg",
+      "claude.svg",
+      "python.svg",
+      "nodejs.svg",
+      "mongodb.svg",
+      "git.svg",
+    ]);
+    expect(new Set(files).size).toBe(files.length);
+  });
+  it("drops JavaScript", () => {
+    expect(files).not.toContain("javascript.svg");
+  });
+  it("renders every badge without NaN or undefined", () => {
+    for (const b of BADGES) expect(renderBadge(b)).not.toMatch(/NaN|Infinity|undefined/);
   });
 });
