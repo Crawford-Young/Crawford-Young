@@ -1,43 +1,115 @@
-import { cardFrame, escapeXml, fmtNum, FONT, theme } from "./theme.js";
+import type { HeatmapLayout, Level } from "./calendar.js";
+import { cardFrame, escapeXml, fmtInt, fmtNum, FONT, palette } from "./theme.js";
 
-export interface StatsData {
-  readonly stars: number;
+const FULL_WIDTH = 760;
+const HALF_WIDTH = 375;
+const HALF_HEIGHT = 195;
+const PAD_X = 24;
+const HEADER_Y = 33;
+
+function text(
+  x: number,
+  y: number,
+  content: string,
+  opts: { size?: number; fill?: string; anchor?: "end" | "middle"; weight?: number } = {},
+): string {
+  const anchor = opts.anchor ? ` text-anchor="${opts.anchor}"` : "";
+  const weight = opts.weight ? ` font-weight="${opts.weight}"` : "";
+  return `  <text x="${x}" y="${y}"${anchor} fill="${opts.fill ?? palette.mutedForeground}" font-family="${FONT}" font-size="${opts.size ?? 13}"${weight}>${escapeXml(content)}</text>`;
+}
+
+// ── Contribution heatmap ────────────────────────────────────────────────────
+
+/** Empty → surface-raised, then the ui accent ramp from subtle to active. Level 1 sits
+ *  halfway between accent-subtle and accent: raw accent-subtle is too close to the empty cell. */
+const LEVEL_COLORS: Readonly<Record<Level, string>> = {
+  0: palette.surfaceRaised,
+  1: "#097352",
+  2: palette.accent,
+  3: palette.accentHover,
+  4: palette.accentActive,
+};
+
+const HEATMAP_HEIGHT = 200;
+const CELL = 10;
+const CELL_PITCH = 13;
+const GRID_X = 50;
+const GRID_Y = 72;
+const MONTH_LABEL_Y = 62;
+const LEGEND_Y = 176;
+const LEGEND_RIGHT = FULL_WIDTH - PAD_X;
+const LEGEND_MORE_WIDTH = 30;
+const LEGEND_LABEL_GAP = 6;
+const WEEKDAY_LABELS: ReadonlyArray<readonly [number, string]> = [
+  [1, "Mon"],
+  [3, "Wed"],
+  [5, "Fri"],
+];
+const LEVELS: readonly Level[] = [0, 1, 2, 3, 4];
+
+function cell(cls: string, x: number, y: number, level: Level): string {
+  return `  <rect class="${cls}" x="${x}" y="${y}" width="${CELL}" height="${CELL}" rx="2" fill="${LEVEL_COLORS[level]}"/>`;
+}
+
+export function renderHeatmapCard(layout: HeatmapLayout): string {
+  const subtitle = text(FULL_WIDTH - PAD_X, HEADER_Y, `${fmtInt(layout.total)} contributions in the last year`, {
+    anchor: "end",
+  });
+  const months = layout.months.map((m) =>
+    text(GRID_X + m.col * CELL_PITCH, MONTH_LABEL_Y, m.label, { size: 10 }),
+  );
+  const weekdays = WEEKDAY_LABELS.map(([row, label]) =>
+    text(PAD_X, GRID_Y + row * CELL_PITCH + CELL - 1, label, { size: 10 }),
+  );
+  const cells = layout.weeks.flatMap((week, col) =>
+    week.map((c) => cell("day", GRID_X + col * CELL_PITCH, GRID_Y + c.weekday * CELL_PITCH, c.level)),
+  );
+  const legendX = LEGEND_RIGHT - LEGEND_MORE_WIDTH - LEVELS.length * CELL_PITCH;
+  const legendTextY = LEGEND_Y + CELL - 1;
+  const legend = [
+    text(legendX - LEGEND_LABEL_GAP, legendTextY, "Less", { size: 10, anchor: "end" }),
+    ...LEVELS.map((level, i) => cell("legend", legendX + i * CELL_PITCH, LEGEND_Y, level)),
+    text(LEGEND_RIGHT, legendTextY, "More", { size: 10, anchor: "end" }),
+  ];
+  const body = [subtitle, ...months, ...weekdays, ...cells, ...legend].join("\n");
+  return cardFrame(FULL_WIDTH, HEATMAP_HEIGHT, "Contributions", body);
+}
+
+// ── Overview ────────────────────────────────────────────────────────────────
+
+export interface OverviewData {
+  readonly contributions: number;
   readonly commits: number;
-  readonly prs: number;
+  readonly pullRequests: number;
   readonly issues: number;
-  readonly contributedTo: number;
+  readonly repositories: number;
 }
 
-export interface Rank {
-  readonly letter: string;
-  readonly pct: number;
-}
+const ROW_START_Y = 70;
+const ROW_GAP = 26;
 
-const ROW_START_Y = 66;
-const ROW_GAP = 25;
-const RING_CIRCUMFERENCE = 251; // 2 * PI * 40
-
-export function renderStatsCard(d: StatsData, rank: Rank): string {
+export function renderOverviewCard(d: OverviewData): string {
   const rows: ReadonlyArray<readonly [string, number]> = [
-    ["Total Stars Earned", d.stars],
-    ["Total Commits", d.commits],
-    ["Total PRs", d.prs],
-    ["Total Issues", d.issues],
-    ["Contributed to", d.contributedTo],
+    ["Contributions", d.contributions],
+    ["Commits", d.commits],
+    ["Pull requests", d.pullRequests],
+    ["Issues", d.issues],
+    ["Active repositories", d.repositories],
   ];
   const body = rows
     .map(([label, value], i) => {
       const y = ROW_START_Y + i * ROW_GAP;
-      return `  <text x="24" y="${y}" fill="${theme.text}" font-family="${FONT}" font-size="14">${escapeXml(label)}:</text>
-  <text x="230" y="${y}" fill="${theme.text}" font-family="${FONT}" font-size="14" font-weight="600">${fmtNum(value)}</text>`;
+      const valueFill = i === 0 ? palette.accent : palette.foreground;
+      return [
+        text(PAD_X, y, label, { size: 14 }),
+        text(HALF_WIDTH - PAD_X, y, fmtInt(value), { size: 14, fill: valueFill, anchor: "end", weight: 600 }),
+      ].join("\n");
     })
     .join("\n");
-  const dash = (rank.pct * RING_CIRCUMFERENCE).toFixed(0);
-  const ring = `  <circle cx="385" cy="120" r="40" stroke="${theme.border}" stroke-width="6"/>
-  <circle cx="385" cy="120" r="40" stroke="${theme.title}" stroke-width="6" stroke-linecap="round" stroke-dasharray="${dash} ${RING_CIRCUMFERENCE}" transform="rotate(-90 385 120)"/>
-  <text x="385" y="128" text-anchor="middle" fill="${theme.title}" font-family="${FONT}" font-size="22" font-weight="700">${escapeXml(rank.letter)}</text>`;
-  return cardFrame(450, 195, "Crawford Young's GitHub Stats", `${body}\n${ring}`);
+  return cardFrame(HALF_WIDTH, HALF_HEIGHT, "Last 12 Months", body);
 }
+
+// ── Languages ───────────────────────────────────────────────────────────────
 
 export interface LanguageSlice {
   readonly name: string;
@@ -45,132 +117,79 @@ export interface LanguageSlice {
   readonly size: number;
 }
 
-const LANG_BAR_X = 24;
-const LANG_BAR_WIDTH = 252;
-const LANG_LEGEND_START_Y = 80;
-const LANG_LEGEND_GAP = 22;
+const LANG_BAR_Y = 52;
+const LANG_BAR_HEIGHT = 8;
+const LANG_BAR_WIDTH = HALF_WIDTH - 2 * PAD_X;
+const LANG_ROWS = 3;
+const LANG_ROW_START_Y = 92;
+const LANG_ROW_GAP = 32;
+const LANG_COL_GAP = 18;
+/** Two columns spanning the bar's width, so the right column's percentages end at the 24px inset. */
+const LANG_COL_WIDTH = (LANG_BAR_WIDTH - LANG_COL_GAP) / 2;
+const LANG_DOT_R = 5;
+const LANG_NAME_OFFSET = 16;
+const PERCENT = 100;
 
 export function renderLanguagesCard(langs: readonly LanguageSlice[]): string {
   const total = langs.reduce((sum, l) => sum + l.size, 0) || 1;
-  let x = LANG_BAR_X;
-  const bar = langs
-    .map((l) => {
-      const w = (l.size / total) * LANG_BAR_WIDTH;
-      const rect = `  <rect x="${x.toFixed(1)}" y="52" width="${w.toFixed(1)}" height="8" fill="${l.color ?? theme.text}"/>`;
-      x += w;
-      return rect;
-    })
-    .join("\n");
-  const legend = langs
-    .map((l, i) => {
-      const y = LANG_LEGEND_START_Y + i * LANG_LEGEND_GAP;
-      const pct = ((l.size / total) * 100).toFixed(1);
-      return `  <circle cx="29" cy="${y - 4}" r="5" fill="${l.color ?? theme.text}"/>
-  <text x="42" y="${y}" fill="${theme.text}" font-family="${FONT}" font-size="13">${escapeXml(l.name)} ${pct}%</text>`;
-    })
-    .join("\n");
-  return cardFrame(300, 90 + langs.length * LANG_LEGEND_GAP, "Most Used Languages", `${bar}\n${legend}`);
-}
-
-export interface StreakData {
-  readonly total: number;
-  readonly current: number;
-  readonly longest: number;
-}
-
-export function renderStreakCard(s: StreakData): string {
-  const cols: ReadonlyArray<readonly [string, string, number]> = [
-    [fmtNum(s.total), "Total Contributions", 85],
-    [String(s.current), "Current Streak", 225],
-    [String(s.longest), "Longest Streak", 365],
-  ];
-  const body = cols
-    .map(
-      ([value, label, cx]) => `  <text x="${cx}" y="95" text-anchor="middle" fill="${theme.title}" font-family="${FONT}" font-size="28" font-weight="700">${value}</text>
-  <text x="${cx}" y="125" text-anchor="middle" fill="${theme.subtext}" font-family="${FONT}" font-size="13">${label}</text>`,
-    )
-    .join("\n");
-  const dividers = `  <line x1="155" y1="60" x2="155" y2="140" stroke="${theme.border}"/>
-  <line x1="295" y1="60" x2="295" y2="140" stroke="${theme.border}"/>`;
-  return cardFrame(450, 170, "Contribution Streak", `${body}\n${dividers}`);
-}
-
-export interface DayPoint {
-  readonly date: string;
-  readonly count: number;
-}
-
-const GRAPH_WIDTH = 760;
-const GRAPH_HEIGHT = 220;
-const PLOT_LEFT = 24;
-const PLOT_RIGHT = 736;
-const PLOT_TOP = 60;
-const PLOT_BOTTOM = 190;
-
-export function renderActivityCard(days: readonly DayPoint[]): string {
-  const max = Math.max(1, ...days.map((d) => d.count));
-  const step = (PLOT_RIGHT - PLOT_LEFT) / Math.max(1, days.length - 1);
-  const pts = days.map((d, i) => {
-    const px = PLOT_LEFT + i * step;
-    const py = PLOT_BOTTOM - (d.count / max) * (PLOT_BOTTOM - PLOT_TOP);
-    return `${px.toFixed(1)},${py.toFixed(1)}`;
+  let x = PAD_X;
+  const segments = langs.map((l) => {
+    const w = (l.size / total) * LANG_BAR_WIDTH;
+    const rect = `    <rect x="${x.toFixed(1)}" y="${LANG_BAR_Y}" width="${w.toFixed(1)}" height="${LANG_BAR_HEIGHT}" fill="${l.color ?? palette.accent}"/>`;
+    x += w;
+    return rect;
   });
-  const area =
-    pts.length > 0
-      ? `M${PLOT_LEFT},${PLOT_BOTTOM} L${pts.join(" L")} L${PLOT_RIGHT},${PLOT_BOTTOM} Z`
-      : `M${PLOT_LEFT},${PLOT_BOTTOM} L${PLOT_RIGHT},${PLOT_BOTTOM} Z`;
-  const linePts = pts.length > 0 ? pts : [`${PLOT_LEFT},${PLOT_BOTTOM}`, `${PLOT_RIGHT},${PLOT_BOTTOM}`];
-  const body = `  <path d="${area}" fill="${theme.title}" fill-opacity="0.25"/>
-  <polyline points="${linePts.join(" ")}" stroke="${theme.title}" stroke-width="2" fill="none"/>
-  <text x="${PLOT_LEFT}" y="${PLOT_BOTTOM + 18}" fill="${theme.subtext}" font-family="${FONT}" font-size="11">${days[0]?.date ?? ""}</text>
-  <text x="${PLOT_RIGHT}" y="${PLOT_BOTTOM + 18}" text-anchor="end" fill="${theme.subtext}" font-family="${FONT}" font-size="11">${days.at(-1)?.date ?? ""}</text>`;
-  return cardFrame(GRAPH_WIDTH, GRAPH_HEIGHT, "Contribution Activity — Last 31 Days", body);
+  const bar = `  <clipPath id="lang-bar"><rect x="${PAD_X}" y="${LANG_BAR_Y}" width="${LANG_BAR_WIDTH}" height="${LANG_BAR_HEIGHT}" rx="${LANG_BAR_HEIGHT / 2}"/></clipPath>
+  <rect x="${PAD_X}" y="${LANG_BAR_Y}" width="${LANG_BAR_WIDTH}" height="${LANG_BAR_HEIGHT}" rx="${LANG_BAR_HEIGHT / 2}" fill="${palette.surfaceRaised}"/>
+  <g clip-path="url(#lang-bar)">
+${segments.join("\n")}
+  </g>`;
+  const legend = langs.map((l, i) => {
+    const colX = PAD_X + Math.floor(i / LANG_ROWS) * (LANG_COL_WIDTH + LANG_COL_GAP);
+    const y = LANG_ROW_START_Y + (i % LANG_ROWS) * LANG_ROW_GAP;
+    const pct = `${((l.size / total) * PERCENT).toFixed(1)}%`;
+    return [
+      `  <circle cx="${colX + LANG_DOT_R}" cy="${y - 4}" r="${LANG_DOT_R}" fill="${l.color ?? palette.accent}"/>`,
+      text(colX + LANG_NAME_OFFSET, y, l.name, { fill: palette.foreground }),
+      text(colX + LANG_COL_WIDTH, y, pct, { anchor: "end" }),
+    ].join("\n");
+  });
+  return cardFrame(HALF_WIDTH, HALF_HEIGHT, "Top Languages", [bar, ...legend].join("\n"));
 }
+
+// ── Claude Code usage ───────────────────────────────────────────────────────
 
 export interface ClaudeDay {
   readonly date: string;
   readonly tokens: number;
 }
 
+const CLAUDE_HEIGHT = 220;
+const PLOT_LEFT = PAD_X;
+const PLOT_RIGHT = FULL_WIDTH - PAD_X;
+const PLOT_TOP = 60;
+const PLOT_BOTTOM = 190;
 const BAR_GAP = 4;
+const MIN_BAR = 2;
 
 export function renderClaudeCard(days: readonly ClaudeDay[]): string {
   const max = Math.max(1, ...days.map((d) => d.tokens));
   const total = days.reduce((sum, d) => sum + d.tokens, 0);
   const slot = (PLOT_RIGHT - PLOT_LEFT) / Math.max(1, days.length);
-  const bars = days
-    .map((d, i) => {
-      const h = (d.tokens / max) * (PLOT_BOTTOM - PLOT_TOP);
-      const px = PLOT_LEFT + i * slot;
-      const py = PLOT_BOTTOM - h;
-      return `  <rect class="bar" x="${px.toFixed(1)}" y="${py.toFixed(1)}" width="${(slot - BAR_GAP).toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="${theme.icon}"/>`;
-    })
-    .join("\n");
-  const subtitle = `  <text x="${PLOT_RIGHT}" y="33" text-anchor="end" fill="${theme.subtext}" font-family="${FONT}" font-size="13">${fmtNum(total)} tokens / ${days.length} days</text>
-  <text x="${PLOT_LEFT}" y="${PLOT_BOTTOM + 18}" fill="${theme.subtext}" font-family="${FONT}" font-size="11">${days[0]?.date ?? ""}</text>
-  <text x="${PLOT_RIGHT}" y="${PLOT_BOTTOM + 18}" text-anchor="end" fill="${theme.subtext}" font-family="${FONT}" font-size="11">${days.at(-1)?.date ?? ""}</text>`;
-  return cardFrame(GRAPH_WIDTH, GRAPH_HEIGHT, "Claude Code Usage — Last 30 Days", `${bars}\n${subtitle}`);
-}
-
-export interface LocDay {
-  readonly date: string;
-  readonly changed: number;
-}
-
-export function renderLocCard(days: readonly LocDay[]): string {
-  const max = Math.max(1, ...days.map((d) => d.changed));
-  const total = days.reduce((sum, d) => sum + d.changed, 0);
-  const slot = (PLOT_RIGHT - PLOT_LEFT) / Math.max(1, days.length);
-  const bars = days
-    .map((d, i) => {
-      const h = (d.changed / max) * (PLOT_BOTTOM - PLOT_TOP);
-      const px = PLOT_LEFT + i * slot;
-      const py = PLOT_BOTTOM - h;
-      return `  <rect class="bar" x="${px.toFixed(1)}" y="${py.toFixed(1)}" width="${(slot - BAR_GAP).toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="${theme.text}"/>`;
-    })
-    .join("\n");
-  const subtitle = `  <text x="${PLOT_RIGHT}" y="33" text-anchor="end" fill="${theme.subtext}" font-family="${FONT}" font-size="13">${fmtNum(total)} lines / ${days.length} days</text>
-  <text x="${PLOT_LEFT}" y="${PLOT_BOTTOM + 18}" fill="${theme.subtext}" font-family="${FONT}" font-size="11">${days[0]?.date ?? ""}</text>
-  <text x="${PLOT_RIGHT}" y="${PLOT_BOTTOM + 18}" text-anchor="end" fill="${theme.subtext}" font-family="${FONT}" font-size="11">${days.at(-1)?.date ?? ""}</text>`;
-  return cardFrame(GRAPH_WIDTH, GRAPH_HEIGHT, "Lines of Code Changed — Last 31 Days", `${bars}\n${subtitle}`);
+  const bars = days.map((d, i) => {
+    const h = d.tokens > 0 ? Math.max(MIN_BAR, (d.tokens / max) * (PLOT_BOTTOM - PLOT_TOP)) : MIN_BAR;
+    const fill = d.tokens > 0 ? palette.accent : palette.surfaceRaised;
+    return `  <rect class="bar" x="${(PLOT_LEFT + i * slot).toFixed(1)}" y="${(PLOT_BOTTOM - h).toFixed(1)}" width="${(slot - BAR_GAP).toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="${fill}"/>`;
+  });
+  const labels = [
+    text(PLOT_RIGHT, HEADER_Y, `${fmtNum(total)} tokens`, { anchor: "end" }),
+    text(PLOT_LEFT, PLOT_BOTTOM + 18, days[0]?.date ?? "", { size: 11 }),
+    text(PLOT_RIGHT, PLOT_BOTTOM + 18, days.at(-1)?.date ?? "", { size: 11, anchor: "end" }),
+  ];
+  return cardFrame(
+    FULL_WIDTH,
+    CLAUDE_HEIGHT,
+    `Claude Code Usage — Last ${days.length} Days`,
+    [...bars, ...labels].join("\n"),
+  );
 }

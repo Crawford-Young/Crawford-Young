@@ -12,19 +12,18 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
         with:
-          version: 10
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
+          node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm test
       - run: pnpm generate
         env:
-          STATS_TOKEN: ${{ secrets.STATS_TOKEN }}
+          # The workflow's own token: every query is public profile data, so there is no PAT to expire.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Commit updated assets
         run: |
           git config user.name "github-actions[bot]"

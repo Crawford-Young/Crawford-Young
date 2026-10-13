@@ -1,108 +1,72 @@
 import { describe, expect, it } from "vitest";
-import {
-  bucketLocByDay,
-  computeRank,
-  computeStreaks,
-  filterReposPushedSince,
-} from "../src/github.js";
+import { summarizeLanguages, toOverview, type LanguageRepo } from "../src/github.js";
 
-function day(date: string, count: number): { date: string; count: number } {
-  return { date, count };
+function repo(pushedAt: string, langs: ReadonlyArray<readonly [string, number]>): LanguageRepo {
+  return {
+    pushedAt,
+    languages: {
+      edges: langs.map(([name, size]) => ({ size, node: { name, color: `#${name.length}00000` } })),
+    },
+  };
 }
 
-describe("computeStreaks", () => {
-  it("computes total, current, and longest streaks", () => {
-    const days = [
-      day("2026-06-01", 2),
-      day("2026-06-02", 1),
-      day("2026-06-03", 0),
-      day("2026-06-04", 3),
-      day("2026-06-05", 1),
-      day("2026-06-06", 1),
+const SINCE = "2025-10-13T00:00:00Z";
+
+describe("summarizeLanguages", () => {
+  it("sums sizes across repos pushed since the cutoff", () => {
+    const out = summarizeLanguages(
+      [
+        repo("2026-10-01T00:00:00Z", [["TypeScript", 600], ["Rust", 100]]),
+        repo("2026-01-01T00:00:00Z", [["TypeScript", 400]]),
+        repo("2024-03-01T00:00:00Z", [["Java", 99_999]]),
+      ],
+      SINCE,
+    );
+    expect(out.map((l) => [l.name, l.size])).toEqual([
+      ["TypeScript", 1000],
+      ["Rust", 100],
+    ]);
+  });
+  it("excludes notebook, markup, styling and shell-script languages", () => {
+    const excluded = [
+      "Jupyter Notebook",
+      "HTML",
+      "CSS",
+      "SCSS",
+      "Shell",
+      "PowerShell",
+      "Dockerfile",
+      "Makefile",
+      "Batchfile",
     ];
-    expect(computeStreaks(days)).toEqual({ total: 8, current: 3, longest: 3 });
+    const out = summarizeLanguages(
+      [repo("2026-10-01T00:00:00Z", [...excluded.map((n) => [n, 10_000] as const), ["GDScript", 5]])],
+      SINCE,
+    );
+    expect(out.map((l) => l.name)).toEqual(["GDScript"]);
   });
-  it("keeps current streak alive when today has no contributions yet", () => {
-    const days = [day("2026-06-04", 1), day("2026-06-05", 2), day("2026-06-06", 0)];
-    expect(computeStreaks(days).current).toBe(2);
-  });
-  it("returns zeros for empty input", () => {
-    expect(computeStreaks([])).toEqual({ total: 0, current: 0, longest: 0 });
+  it("keeps the top six by size, keeping GitHub's colour", () => {
+    const names = ["A", "BB", "CCC", "DDDD", "EEEEE", "FFFFFF", "GGGGGGG"];
+    const out = summarizeLanguages(
+      [repo("2026-10-01T00:00:00Z", names.map((n, i) => [n, (i + 1) * 10] as const))],
+      SINCE,
+    );
+    expect(out).toHaveLength(6);
+    expect(out[0]).toEqual({ name: "GGGGGGG", color: "#700000", size: 70 });
+    expect(out.map((l) => l.name)).not.toContain("A");
   });
 });
 
-describe("computeRank", () => {
-  it("scores high activity as S", () => {
+describe("toOverview", () => {
+  it("reports commit contributions only, leaving private activity to the contributions total", () => {
     expect(
-      computeRank({ stars: 500, commits: 5000, prs: 300, issues: 100, contributedTo: 40 }).letter,
-    ).toBe("S");
-  });
-  it("scores zero activity as B with low pct", () => {
-    const r = computeRank({ stars: 0, commits: 0, prs: 0, issues: 0, contributedTo: 0 });
-    expect(r.letter).toBe("B");
-    expect(r.pct).toBeGreaterThanOrEqual(0.05);
-  });
-});
-
-describe("filterReposPushedSince", () => {
-  const repos = [
-    { name: "active", pushedAt: "2026-07-20T12:00:00Z" },
-    { name: "stale", pushedAt: "2026-05-01T00:00:00Z" },
-    { name: "boundary", pushedAt: "2026-06-19T00:00:00Z" },
-  ];
-  it("keeps repos pushed at or after the window start", () => {
-    expect(filterReposPushedSince(repos, "2026-06-19T00:00:00Z").map((r) => r.name)).toEqual([
-      "active",
-      "boundary",
-    ]);
-  });
-  it("returns empty for all-stale input", () => {
-    expect(filterReposPushedSince(repos, "2026-08-01T00:00:00Z")).toEqual([]);
-  });
-});
-
-function commit(
-  committedDate: string,
-  additions: number,
-  deletions: number,
-  parentCount = 1,
-): { committedDate: string; additions: number; deletions: number; parentCount: number } {
-  return { committedDate, additions, deletions, parentCount };
-}
-
-describe("bucketLocByDay", () => {
-  it("sums additions+deletions per UTC date", () => {
-    const days = bucketLocByDay(
-      [commit("2026-07-13T10:00:00Z", 100, 20), commit("2026-07-13T18:00:00Z", 5, 5)],
-      "2026-07-13",
-      3,
-    );
-    expect(days).toEqual([
-      { date: "2026-07-11", changed: 0 },
-      { date: "2026-07-12", changed: 0 },
-      { date: "2026-07-13", changed: 130 },
-    ]);
-  });
-  it("skips merge commits", () => {
-    const days = bucketLocByDay(
-      [commit("2026-07-13T10:00:00Z", 500, 500, 2), commit("2026-07-13T11:00:00Z", 10, 0)],
-      "2026-07-13",
-      1,
-    );
-    expect(days).toEqual([{ date: "2026-07-13", changed: 10 }]);
-  });
-  it("drops commits older than the window", () => {
-    const days = bucketLocByDay([commit("2026-07-01T10:00:00Z", 99, 0)], "2026-07-13", 2);
-    expect(days).toEqual([
-      { date: "2026-07-12", changed: 0 },
-      { date: "2026-07-13", changed: 0 },
-    ]);
-  });
-  it("returns a zero-filled 31-day window for empty input", () => {
-    const days = bucketLocByDay([], "2026-07-13");
-    expect(days).toHaveLength(31);
-    expect(days[0]).toEqual({ date: "2026-06-13", changed: 0 });
-    expect(days.at(-1)).toEqual({ date: "2026-07-13", changed: 0 });
-    expect(days.every((d) => d.changed === 0)).toBe(true);
+      toOverview({
+        totalCommitContributions: 799,
+        totalPullRequestContributions: 304,
+        totalIssueContributions: 139,
+        totalRepositoriesWithContributedCommits: 15,
+        contributionCalendar: { totalContributions: 1801, weeks: [] },
+      }),
+    ).toEqual({ contributions: 1801, commits: 799, pullRequests: 304, issues: 139, repositories: 15 });
   });
 });

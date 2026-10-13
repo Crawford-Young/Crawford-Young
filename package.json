@@ -2,6 +2,7 @@
   "name": "profile-stats",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@10.34.7",
   "scripts": {
     "generate": "tsx src/generate.ts",
     "export-claude": "tsx src/export-claude.ts",
