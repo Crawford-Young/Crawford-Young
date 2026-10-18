@@ -4,9 +4,9 @@
   <rect class="bar" x="24.0" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
   <rect class="bar" x="47.7" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
   <rect class="bar" x="71.5" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
-  <rect class="bar" x="95.2" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
-  <rect class="bar" x="118.9" y="171.3" width="19.7" height="18.7" rx="2" fill="#10b981"/>
-  <rect class="bar" x="142.7" y="170.0" width="19.7" height="20.0" rx="2" fill="#10b981"/>
+  <rect class="bar" x="95.2" y="171.3" width="19.7" height="18.7" rx="2" fill="#10b981"/>
+  <rect class="bar" x="118.9" y="170.0" width="19.7" height="20.0" rx="2" fill="#10b981"/>
+  <rect class="bar" x="142.7" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
   <rect class="bar" x="166.4" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
   <rect class="bar" x="190.1" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
   <rect class="bar" x="213.9" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
@@ -21,17 +21,17 @@
   <rect class="bar" x="427.5" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
   <rect class="bar" x="451.2" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
   <rect class="bar" x="474.9" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
-  <rect class="bar" x="498.7" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
-  <rect class="bar" x="522.4" y="60.1" width="19.7" height="129.9" rx="2" fill="#10b981"/>
+  <rect class="bar" x="498.7" y="60.1" width="19.7" height="129.9" rx="2" fill="#10b981"/>
+  <rect class="bar" x="522.4" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
   <rect class="bar" x="546.1" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
   <rect class="bar" x="569.9" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
-  <rect class="bar" x="593.6" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
-  <rect class="bar" x="617.3" y="113.3" width="19.7" height="76.7" rx="2" fill="#10b981"/>
-  <rect class="bar" x="641.1" y="80.2" width="19.7" height="109.8" rx="2" fill="#10b981"/>
-  <rect class="bar" x="664.8" y="60.0" width="19.7" height="130.0" rx="2" fill="#10b981"/>
-  <rect class="bar" x="688.5" y="62.4" width="19.7" height="127.6" rx="2" fill="#10b981"/>
+  <rect class="bar" x="593.6" y="113.3" width="19.7" height="76.7" rx="2" fill="#10b981"/>
+  <rect class="bar" x="617.3" y="80.2" width="19.7" height="109.8" rx="2" fill="#10b981"/>
+  <rect class="bar" x="641.1" y="60.0" width="19.7" height="130.0" rx="2" fill="#10b981"/>
+  <rect class="bar" x="664.8" y="62.4" width="19.7" height="127.6" rx="2" fill="#10b981"/>
+  <rect class="bar" x="688.5" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
   <rect class="bar" x="712.3" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
   <text x="736" y="33" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">2.6B tokens</text>
-  <text x="24" y="208" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="11">2026-09-17</text>
-  <text x="736" y="208" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="11">2026-10-16</text>
+  <text x="24" y="208" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="11">2026-09-18</text>
+  <text x="736" y="208" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="11">2026-10-17</text>
 </svg>
