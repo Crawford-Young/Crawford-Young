@@ -4,29 +4,29 @@
   <clipPath id="lang-bar"><rect x="24" y="52" width="327" height="8" rx="4"/></clipPath>
   <rect x="24" y="52" width="327" height="8" rx="4" fill="#27272a"/>
   <g clip-path="url(#lang-bar)">
-    <rect x="24.0" y="52" width="170.1" height="8" fill="#3178c6"/>
-    <rect x="194.1" y="52" width="79.1" height="8" fill="#355570"/>
-    <rect x="273.2" y="52" width="46.0" height="8" fill="#f1e05a"/>
-    <rect x="319.3" y="52" width="15.4" height="8" fill="#dea584"/>
-    <rect x="334.7" y="52" width="13.0" height="8" fill="#7355dd"/>
-    <rect x="347.7" y="52" width="3.3" height="8" fill="#fcb32c"/>
+    <rect x="24.0" y="52" width="162.0" height="8" fill="#3178c6"/>
+    <rect x="186.0" y="52" width="70.1" height="8" fill="#355570"/>
+    <rect x="256.1" y="52" width="46.1" height="8" fill="#f1e05a"/>
+    <rect x="302.2" y="52" width="34.4" height="8" fill="#dea584"/>
+    <rect x="336.5" y="52" width="11.5" height="8" fill="#7355dd"/>
+    <rect x="348.1" y="52" width="2.9" height="8" fill="#fcb32c"/>
   </g>
   <circle cx="29" cy="88" r="5" fill="#3178c6"/>
   <text x="40" y="92" fill="#fafafa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">TypeScript</text>
-  <text x="178.5" y="92" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">52.0%</text>
+  <text x="178.5" y="92" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">49.5%</text>
   <circle cx="29" cy="120" r="5" fill="#355570"/>
   <text x="40" y="124" fill="#fafafa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">GDScript</text>
-  <text x="178.5" y="124" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">24.2%</text>
+  <text x="178.5" y="124" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">21.4%</text>
   <circle cx="29" cy="152" r="5" fill="#f1e05a"/>
   <text x="40" y="156" fill="#fafafa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">JavaScript</text>
   <text x="178.5" y="156" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">14.1%</text>
   <circle cx="201.5" cy="88" r="5" fill="#dea584"/>
   <text x="212.5" y="92" fill="#fafafa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">Rust</text>
-  <text x="351" y="92" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">4.7%</text>
+  <text x="351" y="92" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">10.5%</text>
   <circle cx="201.5" cy="120" r="5" fill="#7355dd"/>
   <text x="212.5" y="124" fill="#fafafa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">C#</text>
-  <text x="351" y="124" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">4.0%</text>
+  <text x="351" y="124" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">3.5%</text>
   <circle cx="201.5" cy="152" r="5" fill="#fcb32c"/>
   <text x="212.5" y="156" fill="#fafafa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">MDX</text>
-  <text x="351" y="156" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">1.0%</text>
+  <text x="351" y="156" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">0.9%</text>
 </svg>
