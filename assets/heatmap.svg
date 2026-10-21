@@ -385,6 +385,7 @@
   <rect class="day" x="726" y="72" width="10" height="10" rx="2" fill="#097352"/>
   <rect class="day" x="726" y="85" width="10" height="10" rx="2" fill="#6ee7b7"/>
   <rect class="day" x="726" y="98" width="10" height="10" rx="2" fill="#27272a"/>
+  <rect class="day" x="726" y="111" width="10" height="10" rx="2" fill="#27272a"/>
   <text x="635" y="185" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="10">Less</text>
   <rect class="legend" x="641" y="176" width="10" height="10" rx="2" fill="#27272a"/>
   <rect class="legend" x="654" y="176" width="10" height="10" rx="2" fill="#097352"/>
