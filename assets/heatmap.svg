@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="760" height="200" viewBox="0 0 760 200" fill="none" role="img" aria-label="Contributions">
   <rect width="759" height="199" x="0.5" y="0.5" rx="8" fill="#18181b" stroke="#27272a"/>
   <text x="24" y="33" fill="#fafafa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="16" font-weight="600">Contributions</text>
-  <text x="736" y="33" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">2,145 contributions in the last year</text>
+  <text x="736" y="33" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">2,152 contributions in the last year</text>
   <text x="50" y="62" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="10">Oct</text>
   <text x="76" y="62" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="10">Nov</text>
   <text x="141" y="62" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="10">Dec</text>
@@ -385,7 +385,8 @@
   <rect class="day" x="726" y="72" width="10" height="10" rx="2" fill="#097352"/>
   <rect class="day" x="726" y="85" width="10" height="10" rx="2" fill="#6ee7b7"/>
   <rect class="day" x="726" y="98" width="10" height="10" rx="2" fill="#27272a"/>
-  <rect class="day" x="726" y="111" width="10" height="10" rx="2" fill="#27272a"/>
+  <rect class="day" x="726" y="111" width="10" height="10" rx="2" fill="#34d399"/>
+  <rect class="day" x="726" y="124" width="10" height="10" rx="2" fill="#27272a"/>
   <text x="635" y="185" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="10">Less</text>
   <rect class="legend" x="641" y="176" width="10" height="10" rx="2" fill="#27272a"/>
   <rect class="legend" x="654" y="176" width="10" height="10" rx="2" fill="#097352"/>

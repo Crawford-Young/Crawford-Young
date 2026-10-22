@@ -4,9 +4,9 @@
   <clipPath id="lang-bar"><rect x="24" y="52" width="327" height="8" rx="4"/></clipPath>
   <rect x="24" y="52" width="327" height="8" rx="4" fill="#27272a"/>
   <g clip-path="url(#lang-bar)">
-    <rect x="24.0" y="52" width="162.0" height="8" fill="#3178c6"/>
-    <rect x="186.0" y="52" width="70.1" height="8" fill="#355570"/>
-    <rect x="256.1" y="52" width="46.1" height="8" fill="#f1e05a"/>
+    <rect x="24.0" y="52" width="161.9" height="8" fill="#3178c6"/>
+    <rect x="185.9" y="52" width="70.1" height="8" fill="#355570"/>
+    <rect x="256.0" y="52" width="46.1" height="8" fill="#f1e05a"/>
     <rect x="302.2" y="52" width="34.4" height="8" fill="#dea584"/>
     <rect x="336.5" y="52" width="11.5" height="8" fill="#7355dd"/>
     <rect x="348.1" y="52" width="2.9" height="8" fill="#fcb32c"/>
