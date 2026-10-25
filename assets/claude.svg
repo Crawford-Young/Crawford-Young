@@ -14,24 +14,24 @@
   <rect class="bar" x="261.3" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
   <rect class="bar" x="285.1" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
   <rect class="bar" x="308.8" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
-  <rect class="bar" x="332.5" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
-  <rect class="bar" x="356.3" y="68.0" width="19.7" height="122.0" rx="2" fill="#10b981"/>
+  <rect class="bar" x="332.5" y="68.0" width="19.7" height="122.0" rx="2" fill="#10b981"/>
+  <rect class="bar" x="356.3" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
   <rect class="bar" x="380.0" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
   <rect class="bar" x="403.7" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
-  <rect class="bar" x="427.5" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
-  <rect class="bar" x="451.2" y="118.0" width="19.7" height="72.0" rx="2" fill="#10b981"/>
-  <rect class="bar" x="474.9" y="86.9" width="19.7" height="103.1" rx="2" fill="#10b981"/>
-  <rect class="bar" x="498.7" y="67.9" width="19.7" height="122.1" rx="2" fill="#10b981"/>
-  <rect class="bar" x="522.4" y="60.0" width="19.7" height="130.0" rx="2" fill="#10b981"/>
-  <rect class="bar" x="546.1" y="138.7" width="19.7" height="51.3" rx="2" fill="#10b981"/>
+  <rect class="bar" x="427.5" y="118.0" width="19.7" height="72.0" rx="2" fill="#10b981"/>
+  <rect class="bar" x="451.2" y="86.9" width="19.7" height="103.1" rx="2" fill="#10b981"/>
+  <rect class="bar" x="474.9" y="67.9" width="19.7" height="122.1" rx="2" fill="#10b981"/>
+  <rect class="bar" x="498.7" y="60.0" width="19.7" height="130.0" rx="2" fill="#10b981"/>
+  <rect class="bar" x="522.4" y="138.7" width="19.7" height="51.3" rx="2" fill="#10b981"/>
+  <rect class="bar" x="546.1" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
   <rect class="bar" x="569.9" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
-  <rect class="bar" x="593.6" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
-  <rect class="bar" x="617.3" y="164.9" width="19.7" height="25.1" rx="2" fill="#10b981"/>
-  <rect class="bar" x="641.1" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
-  <rect class="bar" x="664.8" y="159.1" width="19.7" height="30.9" rx="2" fill="#10b981"/>
-  <rect class="bar" x="688.5" y="142.0" width="19.7" height="48.0" rx="2" fill="#10b981"/>
-  <rect class="bar" x="712.3" y="94.4" width="19.7" height="95.6" rx="2" fill="#10b981"/>
+  <rect class="bar" x="593.6" y="164.9" width="19.7" height="25.1" rx="2" fill="#10b981"/>
+  <rect class="bar" x="617.3" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
+  <rect class="bar" x="641.1" y="159.1" width="19.7" height="30.9" rx="2" fill="#10b981"/>
+  <rect class="bar" x="664.8" y="142.0" width="19.7" height="48.0" rx="2" fill="#10b981"/>
+  <rect class="bar" x="688.5" y="94.4" width="19.7" height="95.6" rx="2" fill="#10b981"/>
+  <rect class="bar" x="712.3" y="188.0" width="19.7" height="2.0" rx="2" fill="#27272a"/>
   <text x="736" y="33" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="13">3.6B tokens</text>
-  <text x="24" y="208" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="11">2026-09-24</text>
-  <text x="736" y="208" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="11">2026-10-23</text>
+  <text x="24" y="208" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="11">2026-09-25</text>
+  <text x="736" y="208" text-anchor="end" fill="#a1a1aa" font-family="-apple-system, 'Segoe UI', system-ui, sans-serif" font-size="11">2026-10-24</text>
 </svg>
